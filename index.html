@@ -136,7 +136,7 @@ Live-synced: everyone on this page sees the same board. · <a href="frames.html"
 <div class="toast" id="toast"></div>
 
 <script>
-const ROOMS = {bed:"🛏 Bedroom", shelf:"📚 Bookshelf", liv:"🛋 Living room", bonsai:"🌲 Bonsai sill", kit:"🍳 Kitchen"};
+const ROOMS = {liv:"🛋 Living room", bonsai:"🌲 Bonsai sill", shelf:"📚 Bookshelf", kit:"🍳 Kitchen", tv:"📺 TV room", bed:"🛏 Bedroom"};
 const PLANTS = [
  {id:"money-tree", name:"Money Tree", aka:"braided trunk, dusty-pink pot", room:"bed", interval:7, quote:"Once a week.", note:"The tall braided one by the wooden easel."},
  {id:"woolly-cactus", name:"Woolly Cactus", aka:"little fuzzy one in the metal pot", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Sits right next to the Money Tree. A splash is plenty — it’s a cactus."},
@@ -150,17 +150,17 @@ const PLANTS = [
  {id:"spider-plant", name:"Little Spider Plant", aka:"white pot on the mini wood stand", room:"bed", interval:7, quote:"All these once a week.", umbrella:true},
  {id:"fuzzy-cacti", name:"Fuzzy Cacti", aka:"the prickly pair", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Cacti — the least thirsty things in the house."},
  {id:"haworthia", name:"Haworthia", aka:"in the glass with pebbles", room:"bed", interval:7, quote:"All these once a week.", umbrella:true},
- {id:"zz-cabinet", name:"ZZ Plant", aka:"pink pot on the green cabinet", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Very forgiving — better late than soggy."},
+ {id:"zz-cabinet", name:"ZZ Plant", aka:"pink pot on the green fridge", room:"tv", interval:7, quote:"All these once a week.", umbrella:true, note:"Lives on top of the green fridge. Very forgiving — better late than soggy."},
  {id:"snake-bookshelf", name:"Snake Plant (bookshelf)", aka:"guarding the book collection", room:"shelf", interval:7, quote:"Once a week."},
  {id:"pothos", name:"Golden Pothos", aka:"trailing off the top shelf", room:"shelf", interval:2, quote:"Keep moist.", note:"Check every day or two — water when the top of the soil feels dry."},
  {id:"prop-jar", name:"Cuttings Jar", aka:"purple-heart cuttings in water", room:"shelf", interval:7, type:"check", quote:"(no instruction — it’s a water jar)", umbrella:true, note:"Just top up the water if it looks low."},
  {id:"wall-zz", name:"Wall ZZ Plant", aka:"upper white wall pot", room:"liv", interval:7, quote:"Once a week."},
  {id:"wall-purple-heart", name:"Wall Purple Heart", aka:"lower white wall pot", room:"liv", interval:7, quote:"Once a week."},
  {id:"calathea", name:"Calathea", aka:"pinstripe leaves, coffee table", room:"liv", interval:2, quote:"Every other day.", note:"Don’t let it dry out completely — it sulks dramatically."},
- {id:"croton", name:"Croton", aka:"the technicolor one", room:"liv", interval:2, quote:"Every couple of days.", note:"Droopy leaves = thirsty. Perks back up fast."},
+ {id:"croton", name:"Croton", aka:"the technicolor one", room:"tv", interval:2, quote:"Every couple of days.", note:"Droopy leaves = thirsty. Perks back up fast."},
  {id:"rubber-big", name:"Big Rubber Tree", aka:"white pot by the sofa", room:"liv", interval:7, quote:"Once a week."},
  {id:"fiddle", name:"Fiddle-Leaf Fig", aka:"THE CRAZY THING — white slotted pot", room:"liv", interval:1, quote:"It is greedy and thirsty. The whole thing, full — every day. Just once a day.", note:"The one plant that gets an ENTIRE watering can. Yes, the full can. Every day."},
- {id:"navy-pot-tree", name:"Big Tree (navy pot)", aka:"the fiddle’s neighbor on the wood riser", room:"liv", interval:1, quote:"The other smaller tree by its side? Those are all just the drink.", note:"Regular little drink — NOT the full-can treatment. (Money tree? Ficus Audrey? Peter just calls it the other tree.)"},
+ {id:"navy-pot-tree", name:"Big Tree (navy pot)", aka:"the fiddle’s neighbor on the wood riser", room:"liv", interval:1, quote:"The other smaller tree by its side? Those are all just the drink.", note:"Regular little drink — NOT the full-can treatment. Up close it looks like a Ficus Audrey."},
  {id:"braided-money-tree", name:"Braided Money Tree #2", aka:"white fluted pot, disco ball & owl", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true, note:"The one decorated with the disco ball and the little owl."},
  {id:"olive-tree-white", name:"Olive Tree", aka:"silvery leaves, white fluted pot", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
  {id:"citrus", name:"Young Citrus", aka:"slate-blue pot", room:"liv", interval:1, quote:"It’s the same thing for all of them — just a little drink, little drink. They all get that every day.", note:"Possibly a lemon or lime. A splash a day."},
@@ -181,7 +181,7 @@ const PLANTS = [
  {id:"clear-snake", name:"Snake Plant (clear pot)", aka:"you can see the soil through it", room:"bonsai", interval:1, type:"check", quote:"You can see in there — if it’s wet, leave it alone.", note:"Daily peek through the clear pot: wet soil = walk away, dry soil = water."},
  {id:"staked-sprout", name:"Staked Sprout", aka:"white pot, bamboo stake, tiny sprout", room:"bonsai", interval:1, quote:"(no specific instruction)", umbrella:true, note:"Lives on the daily sill — give it a small splash with the others."},
  {id:"sill-fern", name:"Little Fern", aka:"at the end of the sill", room:"bonsai", interval:1, quote:"(no specific instruction)", umbrella:true, note:"Ferns like staying lightly moist — small daily splash."},
- {id:"fittonia", name:"The Sad Pot", aka:"mint pot — officially beyond help", room:"bonsai", type:"none", quote:"What the hell is going on in here? — I don’t know. It doesn’t, it doesn’t like anything.", note:"Peter’s words. Nothing to do here — leave it alone. (The two tiny cups next to it have no instructions either — ignore those too.)"},
+ {id:"fittonia", name:"The Sad Pot", aka:"mint pot — officially beyond help", room:"bonsai", type:"none", quote:"What the hell is going on in here? — I don’t know. It doesn’t, it doesn’t like anything.", note:"Peter’s words — and yet: in the July 20 photos it has a tiny new green sprout. Whatever it’s doing, it’s working. Still nothing to do. (The tiny cup next to it has no instructions either.)"},
  {id:"desert-rose", name:"Desert Rose", aka:"fat trunk, blue-striped pot", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
  {id:"kitchen-juniper", name:"Juniper Tree", aka:"the crispy little christmas tree", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Browning at the edges — daily little drink is the prescription."},
  {id:"pilea", name:"Pilea", aka:"coin leaves, by the juniper’s big pot", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
