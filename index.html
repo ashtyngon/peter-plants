@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Peter’s Plants 🪴</title>
+<meta name="description" content="Watering checklist for Peter’s plants — who needs water, who’s good.">
+<meta name="theme-color" content="#2f7d4f">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪴</text></svg>">
+<link rel="apple-touch-icon" href="assets/img/icon.png">
+<style>
+:root{
+  --bg:#eef4ec; --card:#ffffff; --ink:#1d2a21; --muted:#5f7266;
+  --green:#2f7d4f; --green-soft:#dcefe2; --line:#dde8dd;
+  --due-ink:#92400e; --due-bg:#fef3c7; --due-edge:#f59e0b;
+  --over-ink:#b91c1c; --over-bg:#fee2e2; --over-edge:#ef4444;
+  --good-ink:#166534; --good-bg:#dcfce7; --good-edge:#22c55e;
+  --none-ink:#475569; --none-bg:#e2e8f0; --none-edge:#94a3b8;
+  --shadow:0 1px 2px rgba(23,46,30,.06),0 8px 24px rgba(23,46,30,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f1512; --card:#1a221c; --ink:#e7efe9; --muted:#9db3a4;
+    --green:#5bbd85; --green-soft:#1e3328; --line:#2a362d;
+    --due-ink:#fcd34d; --due-bg:#3a2c10; --due-edge:#d97706;
+    --over-ink:#fca5a5; --over-bg:#3d1515; --over-edge:#dc2626;
+    --good-ink:#86efac; --good-bg:#132e1c; --good-edge:#16a34a;
+    --none-ink:#cbd5e1; --none-bg:#26303b; --none-edge:#64748b;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:70px}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 16px 0}
+.h-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;max-width:1060px;margin:0 auto}
+h1{font-size:22px;margin:0;letter-spacing:-.02em}
+.today{font-size:13px;color:var(--muted);white-space:nowrap}
+.summary{max-width:1060px;margin:6px auto 0;font-size:14px;color:var(--muted)}
+.summary b{color:var(--ink)}
+.progress{max-width:1060px;margin:8px auto 10px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.chips{display:flex;gap:8px;max-width:1060px;margin:0 auto;padding:2px 0 10px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:13px;font-weight:600;padding:7px 14px;border-radius:99px;cursor:pointer;transition:.15s}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff}
+main{max-width:1060px;margin:0 auto;padding:14px 16px}
+.group-title{font-size:15px;font-weight:700;margin:18px 4px 10px;display:flex;align-items:center;gap:8px}
+.group-title .count{font-size:12px;font-weight:700;background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:2px 9px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;position:relative}
+.card.due-now{border-color:color-mix(in srgb,var(--due-edge) 55%,var(--line))}
+.card.overdue{border-color:color-mix(in srgb,var(--over-edge) 60%,var(--line))}
+.ph{position:relative;cursor:pointer}
+.ph img{display:block;width:100%;aspect-ratio:4/3.1;object-fit:cover;background:var(--line)}
+.status{position:absolute;left:10px;bottom:10px;font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:99px;backdrop-filter:blur(4px)}
+.status.due{background:var(--due-bg);color:var(--due-ink);box-shadow:inset 0 0 0 1.5px var(--due-edge)}
+.status.over{background:var(--over-bg);color:var(--over-ink);box-shadow:inset 0 0 0 1.5px var(--over-edge)}
+.status.good{background:var(--good-bg);color:var(--good-ink);box-shadow:inset 0 0 0 1.5px var(--good-edge)}
+.status.none{background:var(--none-bg);color:var(--none-ink);box-shadow:inset 0 0 0 1.5px var(--none-edge)}
+.vid-tag{position:absolute;right:10px;top:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.name{font-size:16.5px;font-weight:700;line-height:1.25;margin:0}
+.aka{font-size:12.5px;color:var(--muted);font-weight:500}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11.5px;font-weight:650;color:var(--green);background:var(--green-soft);padding:3px 9px;border-radius:99px}
+.tag.amt{color:var(--muted);background:var(--none-bg)}
+.last{font-size:12.5px;color:var(--muted);margin-top:auto}
+.actions{display:flex;gap:8px;margin-top:2px}
+.water{flex:1;position:relative;overflow:hidden;border:0;border-radius:12px;background:var(--green);color:#fff;font-size:15px;font-weight:700;padding:12px;cursor:pointer;transition:transform .1s}
+.water:active{transform:scale(.97)}
+.water.done{background:var(--good-bg);color:var(--good-ink);box-shadow:inset 0 0 0 1.5px var(--good-edge)}
+.mini{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:12px;padding:0 13px;font-size:16px;cursor:pointer}
+.drop{position:absolute;pointer-events:none;font-size:14px;animation:fall .8s ease-in forwards}
+@keyframes fall{from{transform:translateY(-6px);opacity:1}to{transform:translateY(40px);opacity:0}}
+.empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14.5px}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(10,18,12,.55);z-index:40;display:none;align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow-y:auto;border-radius:22px 22px 0 0;padding:0 0 calc(16px + env(safe-area-inset-bottom))}
+@media(min-width:640px){.overlay{align-items:center}.sheet{border-radius:22px;max-height:88vh}}
+.sheet img.big,.sheet video{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#000}
+.sheet img.big{aspect-ratio:4/3}
+.sheet .inner{padding:16px 18px 6px}
+.sheet h2{margin:0 0 2px;font-size:20px}
+.quote{margin:12px 0;background:var(--green-soft);border-radius:4px 16px 16px 16px;padding:11px 14px;font-size:14.5px;line-height:1.5;position:relative}
+.quote small{display:block;margin-top:6px;color:var(--muted);font-size:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.row label{color:var(--muted)}
+.row input[type=date]{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 9px;font-size:14px;font-family:inherit}
+.hist{font-size:13px;color:var(--muted);line-height:1.8}
+.close{margin:14px 18px 0;width:calc(100% - 36px);border:0;border-radius:12px;background:var(--none-bg);color:var(--ink);font-size:15px;font-weight:650;padding:12px;cursor:pointer}
+.toast{position:fixed;left:50%;transform:translateX(-50%) translateY(80px);bottom:calc(18px + env(safe-area-inset-bottom));background:var(--ink);color:var(--bg);padding:11px 14px 11px 18px;border-radius:99px;font-size:14px;font-weight:600;display:flex;gap:12px;align-items:center;z-index:50;opacity:0;transition:.3s;box-shadow:var(--shadow)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast button{border:0;background:transparent;color:inherit;font-weight:800;font-size:14px;cursor:pointer;text-decoration:underline;padding:4px}
+footer{max-width:1060px;margin:26px auto 0;padding:0 16px;font-size:12.5px;color:var(--muted);text-align:center;line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+  <div class="h-row"><h1>🪴 Peter’s Plants</h1><div class="today" id="todayLabel"></div></div>
+  <div class="summary" id="summary"></div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="chips" id="chips"></div>
+</header>
+<main id="main"></main>
+<footer>Schedule straight from Peter’s walkthrough (July 5) — photos, videos &amp; his exact words.<br>Progress is saved on this device, in this browser.</footer>
+
+<div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const PLANTS = [
+  {id:"fiddle", name:"Fiddle-Leaf Fig", aka:"a.k.a. “the crazy thing”", room:"Living room",
+   img:"assets/img/fiddle-poster.jpg", video:"assets/vid/fiddle-fig.mp4",
+   interval:1, amount:"a FULL watering can — the whole thing",
+   quote:"It is greedy and thirsty. The whole thing, full — every day. Just once a day.",
+   note:"The one plant that gets the entire can. The smaller trees next to it just get the usual little drink."},
+  {id:"lrcrew", name:"Living-Room Window Crew", aka:"the trees & the stand gang by the big window", room:"Living room",
+   img:"assets/img/livingroom-poster.jpg", video:"assets/vid/livingroom-tour.mp4",
+   interval:1, amount:"a little drink each",
+   quote:"It’s the same thing for all of them — just a little drink, little drink. They all get that every day… except the big thing.",
+   note:"Everything at the big window gets a splash daily. The fiddle-leaf fig is the exception — it has its own card."},
+  {id:"kitchen", name:"Kitchen Window Crew", aka:"desert rose, bonsai, herbs & friends", room:"Kitchen",
+   img:"assets/img/kitchen-crew.jpg", video:"assets/vid/kitchen-tour.mp4",
+   interval:1, amount:"a little bit each",
+   quote:"A little bit every day — see for myself.",
+   note:"Bonsai in the stone tray: “water the pan until it comes up to the edge — it’ll suck up what it needs.” The dry-looking bowl “doesn’t like anything” — leave it be."},
+  {id:"onions", name:"Green Onions", aka:"the window salad bar", room:"Kitchen shelf",
+   img:"assets/img/green-onions.jpg",
+   interval:1, amount:"water the soil + fill the tray",
+   quote:"Fill up the tray also.",
+   note:"They drink from below — keep that tray topped up."},
+  {id:"mystery", name:"The Mystery Pot", aka:"under plastic wrap", room:"Kitchen shelf",
+   img:"assets/img/mystery-pot.jpg",
+   interval:1, amount:"spray ONLY if the soil looks dry", action:"Checked",
+   quote:"Open and spray the soil with the green water bottle. …You can see in there — if it’s wet, leave it alone.",
+   note:"Daily peek, not a daily watering. Wet soil = close it back up and walk away."},
+  {id:"calathea", name:"Calathea", aka:"pinstripe leaves, purple underneath", room:"Coffee table",
+   img:"assets/img/calathea.jpg",
+   interval:2, amount:"a regular drink",
+   quote:"Every other day.",
+   note:"“So like three times a week, let’s say.” Don’t let it dry out completely."},
+  {id:"croton", name:"Croton", aka:"the technicolor one", room:"Living room",
+   img:"assets/img/croton.jpg",
+   interval:2, amount:"a regular drink",
+   quote:"Every couple of days.",
+   note:"Drama queen: droopy leaves = thirsty. Perks back up fast."},
+  {id:"pothos", name:"Golden Pothos", aka:"trailing off the bookshelf", room:"Bookshelf",
+   img:"assets/img/pothos.jpg",
+   interval:2, amount:"keep the soil moist",
+   quote:"Keep moist.",
+   note:"Check every day or two — if the top of the soil feels dry, give it a drink."},
+  {id:"money", name:"Money Tree", aka:"braided trunk, pink pot", room:"Bedroom window",
+   img:"assets/img/money-tree.jpg",
+   interval:7, amount:"a normal watering",
+   quote:"Once a week."},
+  {id:"jade", name:"Hanging Jade", aka:"in the red wall pot", room:"By the window",
+   img:"assets/img/jade-hanging.jpg",
+   interval:7, amount:"very little water",
+   quote:"Once a week — but very little water.",
+   note:"It’s a succulent; a few sips, not a soak."},
+  {id:"rubbersmall", name:"Baby Rubber Tree", aka:"striped pot on the sill", room:"Bedroom sill",
+   img:"assets/img/rubber-small.jpg",
+   interval:7, amount:"a normal watering",
+   quote:"Once a week."},
+  {id:"snake", name:"Snake Plant", aka:"guarding the AA books", room:"Bookshelf",
+   img:"assets/img/snake-plant.jpg",
+   interval:7, amount:"a normal watering",
+   quote:"Once a week.",
+   note:"Very forgiving — better slightly late than soggy."},
+  {id:"sill", name:"Windowsill Crew", aka:"jade, snake plant, succulents, cacti + ZZ on the green cabinet", room:"Bedroom sill",
+   img:"assets/img/sill-crew.jpg",
+   interval:7, amount:"a round for everyone",
+   quote:"All these once a week.",
+   note:"One lap with the can covers the whole sill — the ZZ in the pink pot on the green cabinet counts too."},
+  {id:"rubberbig", name:"Big Rubber Tree", aka:"by the sofa", room:"Living room",
+   img:"assets/img/rubber-big.jpg",
+   interval:7, amount:"a normal watering",
+   quote:"Once a week."},
+  {id:"wall", name:"Wall Pots: ZZ + Purple Heart", aka:"the two white cups on the wall", room:"By the window",
+   img:"assets/img/wall-duo.jpg",
+   interval:7, amount:"a normal watering each",
+   quote:"Once a week."}
+];
+
+const KEY = "peter-plants-v1";
+let store = load();
+let filter = "all";
+let toastTimer = null, lastAction = null;
+
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {log:{}} }catch(e){ return {log:{}} } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(store)) }
+function sod(t){ const d = new Date(t); d.setHours(0,0,0,0); return d.getTime() }
+function ymd(t){ const d = new Date(t); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0") }
+function lastWatered(id){ const a = store.log[id]; return a && a.length ? a[a.length-1] : null }
+function daysSince(id){ const lw = lastWatered(id); return lw==null ? null : Math.round((sod(Date.now())-sod(lw))/86400000) }
+function stat(p){
+  const ds = daysSince(p.id);
+  if(ds===null) return {k:"none", label:"No record yet", sub:"tap when you water", rank:1};
+  if(ds===0) return {k:"good", label:p.action? "Checked today" : "Watered today", rank:3};
+  const late = ds - p.interval;
+  if(late>0) return {k:"over", label:`Overdue by ${late} day${late>1?"s":""}`, rank:0};
+  if(late===0) return {k:"due", label: p.action? "Check today" : "Water today", rank:0};
+  const next = new Date(sod(lastWatered(p.id)) + p.interval*86400000);
+  const dayNames=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const inDays = -late;
+  const when = inDays===1 ? "tomorrow" : dayNames[next.getDay()] + " " + next.getDate();
+  return {k:"good", label:`Good — next ${when}`, rank:2};
+}
+function agoLabel(id){
+  const ds = daysSince(id);
+  if(ds===null) return "Never logged";
+  if(ds===0) return "today";
+  if(ds===1) return "yesterday";
+  return ds + " days ago";
+}
+function schedLabel(p){ return p.interval===1 ? "every day" : p.interval===2 ? "every 2 days" : "once a week" }
+
+function water(id, ev){
+  const p = PLANTS.find(x=>x.id===id);
+  (store.log[id] = store.log[id] || []).push(Date.now());
+  save(); lastAction = id;
+  if(ev){ const btn = ev.currentTarget;
+    for(let i=0;i<5;i++){ const s=document.createElement("span"); s.className="drop"; s.textContent="💧";
+      s.style.left=(15+Math.random()*70)+"%"; s.style.top="-4px"; s.style.animationDelay=(Math.random()*.2)+"s";
+      btn.appendChild(s); setTimeout(()=>s.remove(),1100); } }
+  setTimeout(render, ev?350:0);
+  toast(`${p.name} — logged ✓`, true);
+}
+function undo(){
+  if(!lastAction) return;
+  const a = store.log[lastAction]; if(a && a.length) a.pop();
+  lastAction = null; save(); render(); toast("Undone", false);
+}
+function toast(msg, withUndo){
+  const t = document.getElementById("toast");
+  t.innerHTML = msg + (withUndo? ' <button onclick="undo()">Undo</button>':'');
+  t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("show"), 5000);
+}
+
+function card(p){
+  const s = stat(p);
+  const dueNow = s.rank===0;
+  const wateredToday = daysSince(p.id)===0;
+  return `<div class="card ${s.k==='over'?'overdue': dueNow?'due-now':''}">
+    <div class="ph" onclick="openSheet('${p.id}')">
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      ${p.video? '<span class="vid-tag">▶ video</span>':''}
+      <span class="status ${s.k}">${s.k==='due'?'💧 ':s.k==='over'?'🥀 ':s.k==='good'?'✓ ':''}${s.label}</span>
+    </div>
+    <div class="body">
+      <div><div class="name">${p.name}</div><div class="aka">${p.aka||""}</div></div>
+      <div class="meta"><span class="tag">${schedLabel(p)}</span><span class="tag amt">${p.amount||""}</span></div>
+      <div class="last">${p.action?"Last checked":"Last watered"}: <b>${agoLabel(p.id)}</b></div>
+      <div class="actions">
+        <button class="water ${wateredToday?'done':''}" onclick="water('${p.id}', event)">
+          ${wateredToday ? (p.action?"Checked ✓":"Watered ✓") : "💧 " + (p.action? "Mark checked" : "I watered it")}
+        </button>
+        <button class="mini" title="Details" onclick="openSheet('${p.id}')">ℹ︎</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const now = new Date();
+  document.getElementById("todayLabel").textContent =
+    now.toLocaleDateString(undefined,{weekday:"long", month:"short", day:"numeric"});
+  const due = PLANTS.filter(p=>stat(p).rank===0);
+  const fresh = PLANTS.filter(p=>stat(p).rank===1);
+  const doneToday = PLANTS.filter(p=>daysSince(p.id)===0);
+  let sum;
+  if(due.length) sum = `<b>${due.length}</b> plant${due.length>1?"s":""} need${due.length>1?"":"s"} water · <b>${doneToday.length}</b> done today`;
+  else if(fresh.length) sum = `<b>${fresh.length}</b> plant${fresh.length>1?"s":""} waiting for a first log — tap as you water`;
+  else sum = `Everything is watered — <b>${doneToday.length}</b> done today 🎉`;
+  document.getElementById("summary").innerHTML = sum;
+  const total = due.length + fresh.length + doneToday.length;
+  document.getElementById("bar").style.width = total? Math.round(100*doneToday.length/total)+"%" : "100%";
+
+  const chips = [["all","All"],["due","💧 Needs water"],["daily","Daily"],["often","Every 2 days"],["weekly","Weekly"]];
+  document.getElementById("chips").innerHTML = chips.map(([k,l])=>
+    `<button class="chip ${filter===k?'on':''}" onclick="filter='${k}';render()">${l}</button>`).join("");
+
+  let list = PLANTS.filter(p=>{
+    if(filter==="due") return stat(p).rank<=1;
+    if(filter==="daily") return p.interval===1;
+    if(filter==="often") return p.interval===2;
+    if(filter==="weekly") return p.interval===7;
+    return true;
+  });
+  const needs = list.filter(p=>stat(p).rank===0);
+  const noRec = list.filter(p=>stat(p).rank===1);
+  const good  = list.filter(p=>stat(p).rank>=2).sort((a,b)=>stat(a).rank-stat(b).rank);
+  let html = "";
+  if(needs.length) html += `<div class="group-title">💧 Water now <span class="count">${needs.length}</span></div><div class="grid">${needs.map(card).join("")}</div>`;
+  if(noRec.length) html += `<div class="group-title">🌱 No record yet <span class="count">${noRec.length}</span></div><div class="grid">${noRec.map(card).join("")}</div>`;
+  if(good.length)  html += `<div class="group-title">✅ All good <span class="count">${good.length}</span></div><div class="grid">${good.map(card).join("")}</div>`;
+  if(!html) html = `<div class="empty">Nothing here with this filter.</div>`;
+  document.getElementById("main").innerHTML = html;
+}
+
+function openSheet(id){
+  const p = PLANTS.find(x=>x.id===id);
+  const lw = lastWatered(id);
+  const hist = (store.log[id]||[]).slice(-5).reverse().map(t=>
+    "• " + new Date(t).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"}) +
+    " at " + new Date(t).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"})).join("<br>") || "—";
+  const media = p.video
+    ? `<video src="${p.video}" poster="${p.img}" controls playsinline preload="none"></video>`
+    : `<img class="big" src="${p.img}" alt="${p.name}">`;
+  document.getElementById("sheet").innerHTML = `
+    ${media}
+    <div class="inner">
+      <h2>${p.name}</h2>
+      <div class="aka">${p.aka||""} · ${p.room} · ${schedLabel(p)}</div>
+      <div class="quote">“${p.quote}”<small>— Peter’s instructions, July 5${p.video? " · 🎥 watch his video above":""}</small></div>
+      ${p.note? `<div style="font-size:14px;line-height:1.5;color:var(--muted)">${p.note}</div>`:""}
+      <div class="row"><label>${p.action?"Last checked":"Last watered"}</label>
+        <input type="date" value="${lw? ymd(lw):""}" max="${ymd(Date.now())}" onchange="setLast('${p.id}', this.value)"></div>
+      <div class="row" style="align-items:flex-start"><label>Recent</label><div class="hist" style="text-align:right">${hist}</div></div>
+    </div>
+    <button class="close" onclick="closeSheet()">Close</button>`;
+  document.getElementById("overlay").classList.add("show");
+  document.body.style.overflow="hidden";
+}
+function setLast(id, val){
+  if(!val) return;
+  const [y,m,d] = val.split("-").map(Number);
+  const t = new Date(y, m-1, d, 12, 0, 0).getTime();
+  const a = store.log[id] = store.log[id] || [];
+  if(a.length) a[a.length-1] = t; else a.push(t);
+  a.sort((x,y2)=>x-y2);
+  save(); render(); toast("Date updated ✓", false);
+}
+function closeSheet(){
+  document.getElementById("overlay").classList.remove("show");
+  document.body.style.overflow="";
+  const v = document.querySelector("#sheet video"); if(v) v.pause();
+}
+document.getElementById("overlay").addEventListener("click", e=>{ if(e.target.id==="overlay") closeSheet() });
+window.addEventListener("keydown", e=>{ if(e.key==="Escape") closeSheet() });
+
+render();
+// refresh statuses if the tab stays open across midnight / regains focus
+window.addEventListener("focus", render);
+setInterval(render, 10*60*1000);
+</script>
+</body>
+</html>
