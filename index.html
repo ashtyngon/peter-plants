@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f6f1e3; --card:#fffdf6; --ink:#22301f; --muted:#71765c;
-  --green:#1e5c3d; --green-soft:#e3eeda; --terra:#c65f3f; --line:#e6dfca;
+  --bg:#f6f1e3; --card:#fffdf6; --ink:#22301f; --muted:#5d6350;
+  --green:#1e5c3d; --green-soft:#e3eeda; --terra:#a84e33; --line:#e6dfca;
   --due-ink:#8a4a12; --due-bg:#faeacf; --due-edge:#dd9a3e;
   --over-ink:#a1341f; --over-bg:#f9e0d7; --over-edge:#c65f3f;
   --good-ink:#1e5c3d; --good-bg:#e3eeda; --good-edge:#4d9a6f;
@@ -78,11 +78,17 @@ main{max-width:1120px;margin:0 auto;padding:12px 14px}
 .sched{font-size:11px;color:var(--muted);line-height:1.35}
 .sched b{color:var(--green);text-transform:uppercase;letter-spacing:.04em;font-size:10px}
 .actions{display:flex;gap:6px;margin-top:auto;padding-top:6px}
-.water{flex:1;position:relative;overflow:hidden;border:0;border-radius:10px;background:var(--green);color:var(--bg);font-size:12.5px;font-weight:700;padding:9px 6px;cursor:pointer;transition:transform .1s}
+.water{flex:1;position:relative;overflow:hidden;border:0;border-radius:10px;background:var(--green);color:var(--bg);font-size:12.5px;font-weight:700;padding:12px 6px;min-height:44px;cursor:pointer;transition:transform .1s}
 .water:active{transform:scale(.96)}
+:is(button,input,a):focus-visible{outline:2.5px solid var(--terra);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 .water.done{background:var(--good-bg);color:var(--good-ink);box-shadow:inset 0 0 0 1.5px var(--good-edge)}
 .water[disabled]{background:var(--none-bg);color:var(--none-ink);cursor:default}
-.mini{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:0 10px;font-size:13px;cursor:pointer}
+.mini{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:0 12px;min-height:44px;font-size:13px;cursor:pointer}
+.hint{max-width:1120px;margin:12px auto 0;padding:11px 14px;background:var(--green-soft);border:1px solid var(--line);border-radius:14px;font-size:13.5px;line-height:1.55;display:flex;gap:10px;align-items:flex-start}
+.hint b{color:var(--green)}
+.hint button{margin-left:auto;border:0;background:transparent;color:var(--terra);font-weight:800;font-size:13px;cursor:pointer;padding:2px 4px;flex:0 0 auto}
+.hx{border:0;background:transparent;color:var(--terra);font-weight:800;cursor:pointer;font-size:12px;padding:2px 5px}
 .drop{position:absolute;pointer-events:none;font-size:12px;animation:fall .8s ease-in forwards}
 @keyframes fall{from{transform:translateY(-6px);opacity:1}to{transform:translateY(34px);opacity:0}}
 .empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
@@ -121,6 +127,7 @@ footer a{color:var(--terra);font-weight:600}
   <div class="progress"><i id="bar"></i></div>
   <div class="chips" id="chips"></div>
 </header>
+<div style="padding:0 14px"><div class="hint" id="hint" hidden>🌿 <span><b>How this works:</b> tap <b>💧 Watered</b> after you water a plant — its card turns green and shows the next due day. Amber = due today, red = overdue. Everyone who opens this page shares the same live board, so it doesn’t matter whose phone logs it.</span> <button onclick="dismissHint()" aria-label="Dismiss hint">Got it</button></div></div>
 <main id="main"></main>
 <footer>Every plant from Peter’s July 5 walkthrough — his photos, his videos (frame by frame), his exact words.<br>
 Live-synced: everyone on this page sees the same board. · <a href="frames.html">Browse the full archive →</a></footer>
@@ -325,7 +332,9 @@ window.addEventListener("online", ()=>{ flushOutbox(); updateSyncBadge(); });
 window.addEventListener("offline", updateSyncBadge);
 
 /* ——— domain ——— */
-let filter = "all", toastTimer = null, lastAction = null;
+let filter = localStorage.getItem("pp-filter") || "all", toastTimer = null, lastAction = null;
+function setFilter(f){ filter = f; localStorage.setItem("pp-filter", f); render() }
+function dismissHint(){ localStorage.setItem("pp-hint-done","1"); document.getElementById("hint").hidden = true }
 function sod(t){ const d = new Date(t); d.setHours(0,0,0,0); return d.getTime() }
 function ymd(t){ const d = new Date(t); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0") }
 function effLog(id){ const v = new Set(voided[id]||[]); return (log[id]||[]).filter(t=>!v.has(t)) }
@@ -371,13 +380,20 @@ function waterAllDue(){
   const due = PLANTS.filter(p=>visible(p) && stat(p).rank===0 && p.type!=="check" && p.type!=="none");
   const t = Date.now();
   due.forEach(p=>{ outbox.push({p:p.id, k:"w", t}) });
-  lastAction = null; persist(); fold(); render(); flushOutbox();
-  toast(`${due.length} plants marked watered ✓ (check-first pots left for you)`, false);
+  lastAction = {bulk: due.map(p=>({id:p.id, t}))};
+  persist(); fold(); render(); flushOutbox();
+  toast(`${due.length} plants marked watered ✓ — check-first pots left for you`, true);
 }
 function undo(){
   if(!lastAction) return;
-  addEvent(lastAction.id, "v", lastAction.t);
-  lastAction = null; toast("Undone", false);
+  const items = lastAction.bulk || [lastAction];
+  items.forEach(a=>{ outbox.push({p:a.id, k:"v", t:a.t}) });
+  lastAction = null; persist(); fold(); render(); flushOutbox();
+  toast(items.length>1? `Undone — ${items.length} waterings removed` : "Undone", false);
+}
+function voidEntry(id, t){
+  outbox.push({p:id, k:"v", t}); persist(); fold(); flushOutbox();
+  openSheet(id); render(); toast("Entry removed", false);
 }
 function setLast(id, val){
   if(!val) return;
@@ -392,7 +408,7 @@ function toast(msg, withUndo){
   const t = document.getElementById("toast");
   t.innerHTML = msg + (withUndo? ' <button onclick="undo()">Undo</button>':'');
   t.classList.add("show");
-  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("show"), 5000);
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("show"), 7000);
 }
 
 /* ——— render ——— */
@@ -406,7 +422,7 @@ function card(p){
   const wateredToday = p.type!=="none" && daysSince(p.id)===0;
   const btn = p.type==="none"
     ? `<button class="water" disabled>Nothing to do</button>`
-    : `<button class="water ${wateredToday?'done':''}" onclick="water('${p.id}', event)">
+    : `<button class="water ${wateredToday?'done':''}" aria-label="Mark ${p.name} ${verb(p).toLowerCase()}" onclick="water('${p.id}', event)">
         ${wateredToday ? verb(p)+" ✓" : "💧 "+(p.type==="check"?"Checked":"Watered")}</button>`;
   return `<div class="card ${s.k==='over'?'overdue': s.rank===0?'due-now':''}">
     <div class="ph" onclick="openSheet('${p.id}')">
@@ -417,7 +433,7 @@ function card(p){
     <div class="body">
       <div class="name">${p.name}</div>
       <div class="sched"><b>${schedLabel(p)}</b>${p.type==="none"?"":"<br>"+agoLabel(p.id)}</div>
-      <div class="actions">${btn}<button class="mini" onclick="openSheet('${p.id}')">ℹ︎</button></div>
+      <div class="actions">${btn}<button class="mini" aria-label="Details: ${p.name}" onclick="openSheet('${p.id}')">ℹ︎</button></div>
     </div>
   </div>`;
 }
@@ -430,7 +446,7 @@ function render(){
   const fresh = act.filter(p=>stat(p).rank===1);
   const doneToday = act.filter(p=>daysSince(p.id)===0);
   let sum;
-  if(due.length) sum = `<b>${due.length}</b> need${due.length>1?"":"s"} attention · <b>${doneToday.length}</b> done today`;
+  if(due.length) sum = `<b>${due.length}</b> need${due.length>1?"":"s"} water · <b>${doneToday.length}</b> done today`;
   else if(fresh.length) sum = `<b>${fresh.length}</b> waiting for a first log — tap as you water`;
   else sum = `All ${act.length} plants happy — <b>${doneToday.length}</b> done today 🎉`;
   document.getElementById("summary").innerHTML = sum;
@@ -438,7 +454,7 @@ function render(){
   document.getElementById("bar").style.width = total? Math.round(100*doneToday.length/total)+"%" : "100%";
   const chips = [["all","All"],["due","💧 Needs water"],...Object.entries(ROOMS)];
   document.getElementById("chips").innerHTML = chips.map(([k,l])=>
-    `<button class="chip ${filter===k?'on':''}" onclick="filter='${k}';render()">${l}</button>`).join("");
+    `<button class="chip ${filter===k?'on':''}" aria-pressed="${filter===k}" onclick="setFilter('${k}')">${l}</button>`).join("");
   const list = PLANTS.filter(visible);
   const roomOrder = Object.keys(ROOMS);
   const bySort = (a,b)=> roomOrder.indexOf(a.room)-roomOrder.indexOf(b.room) || a.name.localeCompare(b.name);
@@ -462,7 +478,8 @@ function openSheet(id){
   const lw = lastWatered(id);
   const hist = effLog(id).slice(-5).reverse().map(t=>
     "• " + new Date(t).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"}) +
-    ", " + new Date(t).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"})).join("<br>") || "—";
+    ", " + new Date(t).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}) +
+    ` <button class="hx" aria-label="Remove this entry" onclick="voidEntry('${id}',${t})">✕</button>`).join("<br>") || "—";
   const gal = (GAL[id]||[]);
   const galHtml = gal.length>1 ? `<div class="gal">`+gal.map((g,i)=>
     `<img src="assets/img/all/${g}.jpg" class="${i===0?'on':''}" onclick="swapBig(this,'${g}')" alt="angle ${i+1}">`).join("")+`</div>` : "";
@@ -481,8 +498,11 @@ function openSheet(id){
       ${dateRow}
     </div>
     <button class="close" onclick="closeSheet()">Close</button>`;
-  document.getElementById("overlay").classList.add("show");
+  const ov = document.getElementById("overlay");
+  ov.classList.add("show");
+  ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true"); ov.setAttribute("aria-label", p.name);
   document.body.style.overflow="hidden";
+  document.querySelector(".sheet .close").focus({preventScroll:true});
 }
 function swapBig(el, g){
   document.getElementById("bigImg").src = "assets/img/all/"+g+".jpg";
@@ -497,6 +517,7 @@ document.getElementById("overlay").addEventListener("click", e=>{ if(e.target.id
 window.addEventListener("keydown", e=>{ if(e.key==="Escape") closeSheet() });
 
 fold(); render(); updateSyncBadge();
+if(!localStorage.getItem("pp-hint-done")) document.getElementById("hint").hidden = false;
 fetch(DB+"/events.json").then(r=>r.json()).then(d=>{ mirror = d||{}; persist(); fold(); render(); flushOutbox(); }).catch(()=>setSync("off","offline — saved here"));
 startSSE();
 setInterval(render, 10*60*1000);
