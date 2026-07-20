@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Archive — Peter’s Plants</title>
+<meta name="theme-color" content="#1e5c3d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f1e3;--card:#fffdf6;--ink:#22301f;--muted:#71765c;--green:#1e5c3d;--terra:#c65f3f;--line:#e6dfca}
+@media (prefers-color-scheme: dark){:root{--bg:#131810;--card:#1c241a;--ink:#eef0dd;--muted:#a4ac8d;--green:#7cc699;--terra:#e08663;--line:#2c3526}}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding:0 14px 60px}
+.wrap{max-width:1120px;margin:0 auto}
+h1{font-family:"Fraunces",Georgia,serif;font-style:italic;font-weight:600;font-size:26px;margin:22px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:8px;line-height:1.5}
+a.back{color:var(--terra);font-weight:700;font-size:13.5px;text-decoration:none}
+h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:20px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.g figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px}
+.g img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:7px;display:block;background:var(--line)}
+.g figcaption{font-size:9.5px;color:var(--muted);padding:3px 2px 1px;word-break:break-all;line-height:1.3}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← back to the checklist</a>
+  <h1>📸 The Archive</h1>
+  <div class="sub">Everything the plant hunt produced: all 96 plant crops the agents extracted, and every frame of Peter’s three walkthrough videos. If a card’s photo ever seems off, the truth is in here.</div>
+  <h2>All plant crops (96)</h2><div class="g" id="crops"></div>
+  <h2>Video 1 — the bonsai windowsill (60 frames)</h2><div class="g" id="v0"></div>
+  <h2>Video 2 — the living-room window (33 frames)</h2><div class="g" id="v1"></div>
+  <h2>Video 3 — the fiddle-leaf fig, a.k.a. the crazy thing (60 frames)</h2><div class="g" id="v2"></div>
+</div>
+<script>
+const CROPS = ["p692-01-money-tree","p692-02-woolly-cactus","p692-03-dark-leaf-edge","p693-01-jade-plant","p694-01-rubber-plant","p694-02-large-leaf-ficus","p694-03-succulent","p695-01-snake-plant","p696-01-jade-plant","p696-02-snake-plant","p696-03-succulent-boat","p696-04-echeveria-mix","p696-05-spider-plant","p696-06-fuzzy-cactus","p696-07-haworthia","p696-08-zz-plant","p697-01-croton","p698-01-rubber-plant","p699-01-calathea","p699-02-background-plant","p700-01-zz-plant","p700-02-purple-tradescantia","p700-03-corner-green","p701-01-pothos","p701-02-purple-heart-cutting","p702-01-desert-rose","p702-02-juniper","p702-03-pilea","p702-04-sapling","p702-05-zebra-pot-plant","p702-06-basil","p702-07-twiggy-shrub","p702-08-vase-sprout","p702-09-rosemary","p702-10-sage","p702-11-snake-plant","p702-12-tradescantia","p702-13-burros-tail","p702-14-kalanchoe","p703-01-green-onions","p703-02-purple-heart","p703-03-neon-pothos","p704-01-propagation-bowl","p704-02-trunk-plant","p704-03-pilea","p704-04-yellow-pot-cane","p704-05-foreground-blur","v0a-01-juniper-bonsai","v0a-02-gray-bowl-sapling","v0a-03-variegated-schefflera","v0a-04-seedling-pot","v0b-01-juniper-bonsai","v0b-02-ficus-tree","v0b-03-defoliated-tree","v0b-04-variegated-tree","v0b-05-white-pot-seedling","v0b-07-snake-plant","v0b-08-small-succulent","v0b-09-avocado-seedling","v0b-10-succulent-tray","v0b-11-terracotta-tree","v0c-01-staked-cutting","v0c-02-juniper-bonsai","v0c-03-deciduous-bonsai","v0c-04-terracotta-plant","v0c-05-boston-fern","v0c-06-snake-plant","v0c-07-fittonia","v1b-01-fiddle-leaf-fig","v1b-02-money-tree","v1b-03-shrub-fluted-pot","v1b-04-shrub-beige-urn","v1b-05-shrub-mint-pot","v1b-06-sapling-slate-pot","v1b-07-jade-sage-pot","v1b-08-teal-pot-plant","v1b-09-variegated-jade-lamp","v1b-10-jade-white-pot","v2a-01-fiddle-leaf-fig","v2a-02-ficus-audrey","v2a-03-olive-shrub","v2a-04-staked-sapling","v2a-05-serrated-shrub","v2b-01-fiddle-leaf-fig","v2b-02-young-sapling","v2b-03-money-tree","v2b-04-braided-money-tree","v2b-05-flowering-shrub","v2b-06-olive-like-shrub","v2b-07-gardenia","v2c-01-fiddle-leaf-fig","v2c-02-ficus-altissima","v2c-03-olive-tree","v2c-04-azalea-bush","v2c-05-swedish-ivy","v2c-06-zebra-plant"];
+document.getElementById("crops").innerHTML = CROPS.map(c=>
+ `<figure><img loading="lazy" src="assets/img/all/${c}.jpg" alt="${c}"><figcaption>${c}</figcaption></figure>`).join("");
+function frames(el, dir, n){
+  let h="";
+  for(let i=1;i<=n;i++){ const f="f"+String(i).padStart(3,"0");
+    h+=`<figure><img loading="lazy" src="assets/frames/${dir}/${f}.jpg" alt="${dir} ${f}"><figcaption>${f}</figcaption></figure>`; }
+  document.getElementById(el).innerHTML=h;
+}
+frames("v0","v0",60); frames("v1","v1",33); frames("v2","v2",60);
+</script>
+</body>
+</html>

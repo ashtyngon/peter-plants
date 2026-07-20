@@ -4,7 +4,7 @@
   "description": "Watering checklist for Peter’s plants",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#eef4ec",
-  "theme_color": "#2f7d4f",
+  "background_color": "#f6f1e3",
+  "theme_color": "#1e5c3d",
   "icons": [{ "src": "assets/img/icon.png", "sizes": "512x512", "type": "image/png" }]
 }

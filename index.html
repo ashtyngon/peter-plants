@@ -4,290 +4,331 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Peter’s Plants 🪴</title>
-<meta name="description" content="Watering checklist for Peter’s plants — every plant, synced across devices.">
-<meta name="theme-color" content="#2f7d4f">
+<meta name="description" content="Every plant in Peter’s apartment — who needs water, who’s good. Live-synced.">
+<meta name="theme-color" content="#1e5c3d">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪴</text></svg>">
 <link rel="apple-touch-icon" href="assets/img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#eef4ec; --card:#ffffff; --ink:#1d2a21; --muted:#5f7266;
-  --green:#2f7d4f; --green-soft:#dcefe2; --line:#dde8dd;
-  --due-ink:#92400e; --due-bg:#fef3c7; --due-edge:#f59e0b;
-  --over-ink:#b91c1c; --over-bg:#fee2e2; --over-edge:#ef4444;
-  --good-ink:#166534; --good-bg:#dcfce7; --good-edge:#22c55e;
-  --none-ink:#475569; --none-bg:#e2e8f0; --none-edge:#94a3b8;
-  --shadow:0 1px 2px rgba(23,46,30,.06),0 6px 18px rgba(23,46,30,.07);
+  --bg:#f6f1e3; --card:#fffdf6; --ink:#22301f; --muted:#71765c;
+  --green:#1e5c3d; --green-soft:#e3eeda; --terra:#c65f3f; --line:#e6dfca;
+  --due-ink:#8a4a12; --due-bg:#faeacf; --due-edge:#dd9a3e;
+  --over-ink:#a1341f; --over-bg:#f9e0d7; --over-edge:#c65f3f;
+  --good-ink:#1e5c3d; --good-bg:#e3eeda; --good-edge:#4d9a6f;
+  --none-ink:#5c6151; --none-bg:#ecebe0; --none-edge:#a5a894;
+  --shadow:0 1px 2px rgba(38,48,28,.07),0 10px 26px rgba(38,48,28,.08);
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#0f1512; --card:#1a221c; --ink:#e7efe9; --muted:#9db3a4;
-    --green:#5bbd85; --green-soft:#1e3328; --line:#2a362d;
-    --due-ink:#fcd34d; --due-bg:#3a2c10; --due-edge:#d97706;
-    --over-ink:#fca5a5; --over-bg:#3d1515; --over-edge:#dc2626;
-    --good-ink:#86efac; --good-bg:#132e1c; --good-edge:#16a34a;
-    --none-ink:#cbd5e1; --none-bg:#26303b; --none-edge:#64748b;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+    --bg:#131810; --card:#1c241a; --ink:#eef0dd; --muted:#a4ac8d;
+    --green:#7cc699; --green-soft:#22371f; --terra:#e08663; --line:#2c3526;
+    --due-ink:#f2c778; --due-bg:#3a2d12; --due-edge:#c98a2e;
+    --over-ink:#f5b09b; --over-bg:#4020156; --over-bg:#402015; --over-edge:#d4694a;
+    --good-ink:#9fdcb6; --good-bg:#1b3626; --good-edge:#3f8f63;
+    --none-ink:#c9cbb8; --none-bg:#272e22; --none-edge:#6d7360;
+    --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 26px rgba(0,0,0,.4);
   }
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:70px}
-header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 14px 0}
-.h-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;max-width:1100px;margin:0 auto}
-h1{font-size:21px;margin:0;letter-spacing:-.02em}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:70px;
+  background-image:radial-gradient(circle at 12% 8%, rgba(30,92,61,.05) 0 140px, transparent 140px),radial-gradient(circle at 88% 30%, rgba(198,95,63,.05) 0 180px, transparent 180px)}
+.serif{font-family:"Fraunces",Georgia,serif}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 91%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:calc(9px + env(safe-area-inset-top)) 14px 0}
+.h-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;max-width:1120px;margin:0 auto}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-style:italic;font-size:24px;margin:0;letter-spacing:.01em}
+h1 .leaf{font-style:normal}
 .h-right{display:flex;align-items:baseline;gap:10px;font-size:12.5px;color:var(--muted);white-space:nowrap}
 #syncDot{display:inline-flex;align-items:center;gap:5px}
 #syncDot i{width:8px;height:8px;border-radius:99px;background:var(--none-edge);display:inline-block}
-#syncDot.ok i{background:var(--good-edge)} #syncDot.busy i{background:var(--due-edge)} #syncDot.off i{background:var(--over-edge)}
-.summary{max-width:1100px;margin:5px auto 0;font-size:13.5px;color:var(--muted)}
+#syncDot.ok i{background:var(--good-edge);box-shadow:0 0 0 3px color-mix(in srgb,var(--good-edge) 25%, transparent)}
+#syncDot.busy i{background:var(--due-edge)} #syncDot.off i{background:var(--over-edge)}
+.summary{max-width:1120px;margin:4px auto 0;font-size:13.5px;color:var(--muted)}
 .summary b{color:var(--ink)}
-.progress{max-width:1100px;margin:7px auto 9px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
-.progress i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.chips{display:flex;gap:7px;max-width:1100px;margin:0 auto;padding:2px 0 10px;overflow-x:auto;scrollbar-width:none}
+.progress{max-width:1120px;margin:7px auto 9px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--good-edge));border-radius:99px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.chips{display:flex;gap:7px;max-width:1120px;margin:0 auto;padding:2px 0 10px;overflow-x:auto;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:99px;cursor:pointer;transition:.15s}
-.chip.on{background:var(--green);border-color:var(--green);color:#fff}
-main{max-width:1100px;margin:0 auto;padding:12px 14px}
-.group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 2px 9px}
-.group-title{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:8px}
-.group-title .count{font-size:11.5px;font-weight:700;background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:2px 8px}
-.bulk{border:1px solid var(--green);background:var(--green-soft);color:var(--green);font-size:12.5px;font-weight:700;padding:7px 12px;border-radius:99px;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px}
-@media(max-width:420px){.grid{grid-template-columns:repeat(2,1fr)}}
-.card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;position:relative}
-.card.overdue{border-color:color-mix(in srgb,var(--over-edge) 60%,var(--line))}
-.card.due-now{border-color:color-mix(in srgb,var(--due-edge) 55%,var(--line))}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:99px;cursor:pointer;transition:.15s}
+.chip.on{background:var(--green);border-color:var(--green);color:var(--bg)}
+main{max-width:1120px;margin:0 auto;padding:12px 14px}
+.group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 2px 10px}
+.group-title{font-family:"Fraunces",Georgia,serif;font-size:19px;font-weight:600;display:flex;align-items:center;gap:8px}
+.group-title .count{font-family:-apple-system,system-ui,sans-serif;font-size:11.5px;font-weight:700;background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:2px 9px}
+.bulk{border:1.5px solid var(--terra);background:transparent;color:var(--terra);font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:99px;cursor:pointer}
+.bulk:active{background:var(--terra);color:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+@media(max-width:430px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;position:relative;padding:7px 7px 9px}
+.card.overdue{border-color:var(--over-edge)}
+.card.due-now{border-color:var(--due-edge)}
 .ph{position:relative;cursor:pointer}
-.ph img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--line)}
-.status{position:absolute;left:7px;bottom:7px;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:99px;backdrop-filter:blur(4px)}
-.status.due{background:var(--due-bg);color:var(--due-ink);box-shadow:inset 0 0 0 1.5px var(--due-edge)}
-.status.over{background:var(--over-bg);color:var(--over-ink);box-shadow:inset 0 0 0 1.5px var(--over-edge)}
-.status.good{background:var(--good-bg);color:var(--good-ink);box-shadow:inset 0 0 0 1.5px var(--good-edge)}
-.status.none{background:var(--none-bg);color:var(--none-ink);box-shadow:inset 0 0 0 1.5px var(--none-edge)}
-.room-tag{position:absolute;right:6px;top:6px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;padding:3px 7px;border-radius:99px}
-.body{padding:8px 10px 10px;display:flex;flex-direction:column;gap:5px;flex:1}
-.name{font-size:13.5px;font-weight:700;line-height:1.2;margin:0}
+.ph img{display:block;width:100%;aspect-ratio:1/1.06;object-fit:cover;background:var(--line);border-radius:120px 120px 12px 12px}
+.status{position:absolute;left:50%;transform:translateX(-50%);bottom:-7px;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap;box-shadow:var(--shadow)}
+.status.due{background:var(--due-bg);color:var(--due-ink);outline:1.5px solid var(--due-edge)}
+.status.over{background:var(--over-bg);color:var(--over-ink);outline:1.5px solid var(--over-edge)}
+.status.good{background:var(--good-bg);color:var(--good-ink);outline:1.5px solid var(--good-edge)}
+.status.none{background:var(--none-bg);color:var(--none-ink);outline:1.5px solid var(--none-edge)}
+.room-tag{position:absolute;right:7px;top:7px;background:color-mix(in srgb,var(--ink) 55%,transparent);color:var(--bg);font-size:11px;padding:3px 7px;border-radius:99px}
+.body{padding:13px 4px 0;display:flex;flex-direction:column;gap:5px;flex:1;text-align:center}
+.name{font-family:"Fraunces",Georgia,serif;font-size:15px;font-weight:600;line-height:1.15;margin:0}
 .sched{font-size:11px;color:var(--muted);line-height:1.35}
-.sched b{color:var(--green)}
-.actions{display:flex;gap:6px;margin-top:auto;padding-top:4px}
-.water{flex:1;position:relative;overflow:hidden;border:0;border-radius:9px;background:var(--green);color:#fff;font-size:12.5px;font-weight:700;padding:9px 6px;cursor:pointer;transition:transform .1s}
+.sched b{color:var(--green);text-transform:uppercase;letter-spacing:.04em;font-size:10px}
+.actions{display:flex;gap:6px;margin-top:auto;padding-top:6px}
+.water{flex:1;position:relative;overflow:hidden;border:0;border-radius:10px;background:var(--green);color:var(--bg);font-size:12.5px;font-weight:700;padding:9px 6px;cursor:pointer;transition:transform .1s}
 .water:active{transform:scale(.96)}
 .water.done{background:var(--good-bg);color:var(--good-ink);box-shadow:inset 0 0 0 1.5px var(--good-edge)}
 .water[disabled]{background:var(--none-bg);color:var(--none-ink);cursor:default}
-.mini{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:9px;padding:0 9px;font-size:13px;cursor:pointer}
+.mini{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:0 10px;font-size:13px;cursor:pointer}
 .drop{position:absolute;pointer-events:none;font-size:12px;animation:fall .8s ease-in forwards}
 @keyframes fall{from{transform:translateY(-6px);opacity:1}to{transform:translateY(34px);opacity:0}}
 .empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
-.overlay{position:fixed;inset:0;background:rgba(10,18,12,.55);z-index:40;display:none;align-items:flex-end;justify-content:center}
+.overlay{position:fixed;inset:0;background:rgba(24,28,16,.6);z-index:40;display:none;align-items:flex-end;justify-content:center}
 .overlay.show{display:flex}
-.sheet{background:var(--card);width:100%;max-width:540px;max-height:92vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:0 0 calc(16px + env(safe-area-inset-bottom))}
-@media(min-width:640px){.overlay{align-items:center}.sheet{border-radius:20px;max-height:88vh}}
-.sheet img.big{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:var(--line)}
-.sheet .inner{padding:14px 18px 4px}
-.sheet h2{margin:0 0 2px;font-size:19px}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:93vh;overflow-y:auto;border-radius:22px 22px 0 0;padding:10px 10px calc(16px + env(safe-area-inset-bottom))}
+@media(min-width:640px){.overlay{align-items:center}.sheet{border-radius:22px;max-height:88vh}}
+.sheet img.big{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:var(--line);border-radius:160px 160px 14px 14px;transition:opacity .15s}
+.gal{display:flex;gap:7px;overflow-x:auto;padding:9px 2px 2px;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.gal img{width:56px;height:56px;object-fit:cover;border-radius:10px;cursor:pointer;border:2px solid transparent;flex:0 0 auto}
+.gal img.on{border-color:var(--terra)}
+.sheet .inner{padding:12px 10px 4px}
+.sheet h2{font-family:"Fraunces",Georgia,serif;margin:0 0 2px;font-size:22px;font-weight:600}
 .sheet .aka{font-size:12.5px;color:var(--muted)}
-.quote{margin:12px 0;background:var(--green-soft);border-radius:4px 14px 14px 14px;padding:10px 13px;font-size:14px;line-height:1.5}
-.quote small{display:block;margin-top:5px;color:var(--muted);font-size:11.5px}
-.note{font-size:13.5px;line-height:1.5;color:var(--muted)}
+.quote{margin:12px 0;background:var(--green-soft);border-radius:4px 16px 16px 16px;padding:11px 14px;font-size:14px;line-height:1.55;font-family:"Fraunces",Georgia,serif;font-style:italic}
+.quote small{display:block;margin-top:6px;color:var(--muted);font-size:11.5px;font-family:-apple-system,system-ui,sans-serif;font-style:normal}
+.note{font-size:13.5px;line-height:1.55;color:var(--muted)}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px;margin-top:10px}
 .row label{color:var(--muted)}
 .row input[type=date]{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:6px 8px;font-size:13.5px;font-family:inherit}
 .hist{font-size:12.5px;color:var(--muted);line-height:1.7;text-align:right}
-.close{margin:12px 18px 0;width:calc(100% - 36px);border:0;border-radius:11px;background:var(--none-bg);color:var(--ink);font-size:14.5px;font-weight:650;padding:11px;cursor:pointer}
+.close{margin:12px 8px 0;width:calc(100% - 16px);border:0;border-radius:11px;background:var(--none-bg);color:var(--ink);font-size:14.5px;font-weight:650;padding:11px;cursor:pointer}
 .toast{position:fixed;left:50%;transform:translateX(-50%) translateY(80px);bottom:calc(16px + env(safe-area-inset-bottom));background:var(--ink);color:var(--bg);padding:10px 13px 10px 16px;border-radius:99px;font-size:13.5px;font-weight:600;display:flex;gap:11px;align-items:center;z-index:50;opacity:0;transition:.3s;box-shadow:var(--shadow);max-width:92vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast button{border:0;background:transparent;color:inherit;font-weight:800;font-size:13.5px;cursor:pointer;text-decoration:underline;padding:3px}
-footer{max-width:1100px;margin:24px auto 0;padding:0 16px;font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+footer{max-width:1120px;margin:26px auto 0;padding:0 16px;font-size:12px;color:var(--muted);text-align:center;line-height:1.7}
+footer a{color:var(--terra);font-weight:600}
 </style>
 </head>
 <body>
 <header>
-  <div class="h-row"><h1>🪴 Peter’s Plants</h1>
+  <div class="h-row"><h1><span class="leaf">🪴</span> Peter’s Plants</h1>
     <div class="h-right"><span id="syncDot"><i></i><span id="syncTxt">…</span></span><span id="todayLabel"></span></div></div>
   <div class="summary" id="summary"></div>
   <div class="progress"><i id="bar"></i></div>
   <div class="chips" id="chips"></div>
 </header>
 <main id="main"></main>
-<footer>Every plant from Peter’s July 5 walkthrough — photos, video stills &amp; his exact words.<br>Progress syncs to a shared board: everyone who opens this page sees the same state.</footer>
+<footer>Every plant from Peter’s July 5 walkthrough — his photos, his videos (frame by frame), his exact words.<br>
+Live-synced: everyone on this page sees the same board. · <a href="frames.html">Browse the full archive →</a></footer>
 
 <div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
-/* rooms in walking order */
 const ROOMS = {bed:"🛏 Bedroom", shelf:"📚 Bookshelf", liv:"🛋 Living room", bonsai:"🌲 Bonsai sill", kit:"🍳 Kitchen"};
-/* type: water (default) | check | none  */
 const PLANTS = [
- // — BEDROOM window & sill — "once a week"
- {id:"money-tree", name:"Money Tree", aka:"braided trunk, dusty-pink pot", room:"bed", interval:7,
-  quote:"Once a week.", note:"The tall braided one by the wooden easel."},
- {id:"woolly-cactus", name:"Woolly Cactus", aka:"little fuzzy one in the metal pot", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true, note:"Sits right next to the Money Tree. A splash is plenty — it’s a cactus."},
- {id:"hanging-jade", name:"Hanging Jade", aka:"in the coral wall pot", room:"bed", interval:7,
-  quote:"Once a week — but very little water.", note:"A few sips, not a soak. It’s a succulent."},
- {id:"rubber-small", name:"Baby Rubber Tree", aka:"navy striped pot on the sill", room:"bed", interval:7,
-  quote:"Once a week."},
- {id:"glass-succulent", name:"Little Glass Succulent", aka:"pale rosette in the glass cup", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true, note:"Tiny splash only — no drainage in glass."},
- {id:"sill-jade", name:"Jade Plant", aka:"terracotta pot on the window bench", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true, note:"Easy does it — jades store water in their leaves."},
- {id:"sill-snake", name:"Snake Plant (window)", aka:"white pot on the window bench", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true},
- {id:"echeveria-boat", name:"Echeveria Boat", aka:"succulents in the concrete boat", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true, note:"Light splash around each rosette."},
- {id:"echeveria-bowl", name:"Dark Echeveria Bowl", aka:"big burgundy rosette", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true},
- {id:"spider-plant", name:"Little Spider Plant", aka:"white pot on the mini wood stand", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true},
- {id:"fuzzy-cacti", name:"Fuzzy Cacti", aka:"the prickly pair", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true, note:"Cacti — the least thirsty things in the house."},
- {id:"haworthia", name:"Haworthia", aka:"in the glass with pebbles", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true},
- {id:"zz-cabinet", name:"ZZ Plant", aka:"pink pot on the green cabinet", room:"bed", interval:7,
-  quote:"All these once a week.", umbrella:true, note:"Very forgiving — better late than soggy."},
- // — BOOKSHELF —
- {id:"snake-bookshelf", name:"Snake Plant (bookshelf)", aka:"guarding the book collection", room:"shelf", interval:7,
-  quote:"Once a week."},
- {id:"pothos", name:"Golden Pothos", aka:"trailing off the top shelf", room:"shelf", interval:2,
-  quote:"Keep moist.", note:"Check every day or two — water when the top of the soil feels dry."},
- {id:"prop-jar", name:"Cuttings Jar", aka:"purple-heart cuttings in water", room:"shelf", interval:7, type:"check",
-  quote:"(no instruction — it’s a water jar)", umbrella:true, note:"Just top up the water if it looks low."},
- // — LIVING ROOM —
- {id:"wall-zz", name:"Wall ZZ Plant", aka:"upper white wall pot", room:"liv", interval:7,
-  quote:"Once a week."},
- {id:"wall-purple-heart", name:"Wall Purple Heart", aka:"lower white wall pot", room:"liv", interval:7,
-  quote:"Once a week."},
- {id:"calathea", name:"Calathea", aka:"pinstripe leaves, coffee table", room:"liv", interval:2,
-  quote:"Every other day.", note:"Don’t let it dry out completely — it sulks dramatically."},
- {id:"croton", name:"Croton", aka:"the technicolor one", room:"liv", interval:2,
-  quote:"Every couple of days.", note:"Droopy leaves = thirsty. Perks back up fast."},
- {id:"rubber-big", name:"Big Rubber Tree", aka:"white pot by the sofa", room:"liv", interval:7,
-  quote:"Once a week."},
- // — LIVING ROOM WINDOW — daily drink crew
- {id:"fiddle", name:"Fiddle-Leaf Fig", aka:"THE CRAZY THING — white slotted pot", room:"liv", interval:1,
-  quote:"It is greedy and thirsty. The whole thing, full — every day. Just once a day.",
-  note:"The one plant that gets an ENTIRE watering can. Yes, the full can. Every day."},
- {id:"navy-pot-tree", name:"Leafy Tree (navy pot)", aka:"big glossy leaves, next to the fiddle", room:"liv", interval:1,
-  quote:"The other smaller tree by its side? Those are all just the drink.",
-  note:"Regular little drink — NOT the full-can treatment."},
- {id:"braided-money-tree", name:"Braided Money Tree #2", aka:"white fluted pot, disco ball & owl", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true, note:"The one decorated with the disco ball and the little owl."},
- {id:"citrus", name:"Young Citrus", aka:"slate-blue pot", room:"liv", interval:1,
-  quote:"It’s the same thing for all of them — just a little drink, little drink. They all get that every day.",
-  note:"Possibly a lemon or lime. A splash a day."},
- {id:"shrub-grey", name:"Little-Leaf Shrub", aka:"dense tiny leaves, grey pot on the stand", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true},
- {id:"shrub-teal", name:"Silvery Shrub", aka:"teal pot by the window", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true},
- {id:"mint-shrub", name:"Staked Green Shrub", aka:"mint pot, bamboo stakes", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true},
- {id:"teal-sapling", name:"Baby Sapling", aka:"dark teal pot with the water spike", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true, note:"Tiny thing with a stake and a white watering spike."},
- {id:"floor-trailing", name:"Trailing Plant (floor)", aka:"scalloped leaves at the fiddle’s feet", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true},
- {id:"zebra-plant", name:"Zebra Plant", aka:"white-veined leaves, low in front", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true},
- {id:"baby-jade", name:"Baby Jade (floor)", aka:"sage-green pot under the stand", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true, note:"It’s a succulent — make its daily drink a tiny one."},
- {id:"side-table-mini", name:"Side-Table Mini", aka:"variegated cutie by the ball lamp", room:"liv", interval:1,
-  quote:"They all get that every day.", umbrella:true},
- // — BONSAI SILL —
- {id:"juniper-bonsai", name:"Juniper Bonsai", aka:"stone slab on the black tray", room:"bonsai", interval:1,
-  quote:"You can just water the pan — water the pan until it comes up to the edge, and then it’ll suck up what it needs.",
-  note:"Don’t water the top — fill the black TRAY under the slab to the rim."},
- {id:"bowl-bonsai", name:"Bonsai Bowl", aka:"the sparse one in the grey bowl", room:"bonsai", interval:1,
-  quote:"Every day, just a little bit. That’s a drink — just a little bit.",
-  note:"Looks half-asleep, still counts. Dried leaves on the soil are its mulch blanket."},
- {id:"variegated-tree", name:"Variegated Tree", aka:"bushy one, terracotta pot", room:"bonsai", interval:1,
-  quote:"This one loves water. Every day — every day loves water.",
-  note:"The thirstiest thing on this sill — a proper drink daily."},
- {id:"avocado", name:"Avocado Sapling", aka:"tall stick in the white pot", room:"bonsai", interval:2,
-  quote:"Probably every other day — so like three times a week, let’s say.",
-  note:"Peter wavered between daily and every-other-day. Every other day is the official ruling."},
- {id:"clear-snake", name:"Snake Plant (clear pot)", aka:"you can see the soil through it", room:"bonsai", interval:1, type:"check",
-  quote:"You can see in there — if it’s wet, leave it alone.",
-  note:"Daily peek through the clear pot: wet soil = walk away, dry soil = water."},
- {id:"staked-sprout", name:"Staked Sprout", aka:"white pot, bamboo stake, tiny sprout", room:"bonsai", interval:1,
-  quote:"(no specific instruction)", umbrella:true, note:"Lives on the daily sill — give it a small splash with the others."},
- {id:"sill-fern", name:"Little Fern", aka:"at the end of the sill", room:"bonsai", interval:1,
-  quote:"(no specific instruction)", umbrella:true, note:"Ferns like staying lightly moist — small daily splash."},
- {id:"fittonia", name:"The Sad Pot", aka:"mint pot — officially beyond help", room:"bonsai", type:"none",
-  quote:"What the hell is going on in here? — I don’t know. It doesn’t, it doesn’t like anything.",
-  note:"Peter’s words. Nothing to do here — leave it alone. (There are also two tiny cups next to it with no instructions — ignore those too.)"},
- // — KITCHEN window — "a little bit every day"
- {id:"desert-rose", name:"Desert Rose", aka:"fat trunk, blue-striped pot", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"kitchen-juniper", name:"Juniper Tree", aka:"the crispy little christmas tree", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true, note:"Browning at the edges — daily little drink is the prescription."},
- {id:"pilea", name:"Pilea", aka:"coin leaves, by the juniper’s big pot", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"kitchen-sapling", name:"Kitchen Sapling", aka:"skinny young tree on the shelf", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"zebra-pot-trailing", name:"Zebra-Pot Trailer", aka:"striped pot, trailing stems", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"basil", name:"Basil", aka:"the edible one", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true, note:"Herbs wilt fast — don’t skip its day."},
- {id:"twiggy-shrub", name:"Twiggy Shrub", aka:"bare little branches, dark pot", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"vase-sprout", name:"Vase Sprout", aka:"sprouting in the glass vase", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true, note:"If it’s sitting in water, just keep the level topped up."},
- {id:"rosemary", name:"Rosemary", aka:"ceramic pot on the sill", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"sage", name:"Sage", aka:"soft grey-green leaves", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"kitchen-snake", name:"Snake Plant (yellow edge)", aka:"tall one behind the sink shelf", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true, note:"Snake plants barely drink — make its daily bit a tiny one."},
- {id:"kitchen-purple-heart", name:"Purple Heart", aka:"purple stems, terracotta", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"burros-tail", name:"Burro’s Tail", aka:"chunky trailing succulent in glass", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true, note:"Succulent — a few drops count as its ‘little bit’."},
- {id:"kalanchoe", name:"Kalanchoe", aka:"scalloped leaves, small pot", room:"kit", interval:1,
-  quote:"A little bit every day — see for myself.", umbrella:true},
- // — KITCHEN shelf —
- {id:"green-onions", name:"Green Onions", aka:"the window salad bar", room:"kit", interval:1,
-  quote:"Fill up the tray also.", note:"Water the soil AND top up the tray underneath — they drink from below."},
- {id:"neon-pothos", name:"Neon Pothos Cutting", aka:"lime leaf in the copper cups", room:"kit", interval:1,
-  quote:"(no specific instruction)", umbrella:true, note:"Lives with the onion crew — small daily splash."},
- {id:"mystery-pot", name:"The Mystery Pot", aka:"under plastic wrap, blue-rim pot", room:"kit", interval:1, type:"check",
-  quote:"Open and spray the soil with the green water bottle.",
-  note:"Daily peek: unwrap, look at the soil — dry = spray it with the green bottle, wet = wrap it back and walk away."},
- {id:"yellow-pot-cane", name:"Yellow-Pot Cane", aka:"lower shelf, mustard pot", room:"kit", interval:1,
-  quote:"(no specific instruction)", umbrella:true, note:"On the same shelf as the mystery pot — daily little splash."},
+ {id:"money-tree", name:"Money Tree", aka:"braided trunk, dusty-pink pot", room:"bed", interval:7, quote:"Once a week.", note:"The tall braided one by the wooden easel."},
+ {id:"woolly-cactus", name:"Woolly Cactus", aka:"little fuzzy one in the metal pot", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Sits right next to the Money Tree. A splash is plenty — it’s a cactus."},
+ {id:"hanging-jade", name:"Hanging Jade", aka:"in the coral wall pot", room:"bed", interval:7, quote:"Once a week — but very little water.", note:"A few sips, not a soak. It’s a succulent."},
+ {id:"rubber-small", name:"Baby Rubber Tree", aka:"navy striped pot on the sill", room:"bed", interval:7, quote:"Once a week."},
+ {id:"glass-succulent", name:"Little Glass Succulent", aka:"pale rosette in the glass cup", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Tiny splash only — no drainage in glass."},
+ {id:"sill-jade", name:"Jade Plant", aka:"terracotta pot on the window bench", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Easy does it — jades store water in their leaves."},
+ {id:"sill-snake", name:"Snake Plant (window)", aka:"white pot on the window bench", room:"bed", interval:7, quote:"All these once a week.", umbrella:true},
+ {id:"echeveria-boat", name:"Echeveria Boat", aka:"succulents in the concrete boat", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Light splash around each rosette."},
+ {id:"echeveria-bowl", name:"Dark Echeveria Bowl", aka:"big burgundy rosette", room:"bed", interval:7, quote:"All these once a week.", umbrella:true},
+ {id:"spider-plant", name:"Little Spider Plant", aka:"white pot on the mini wood stand", room:"bed", interval:7, quote:"All these once a week.", umbrella:true},
+ {id:"fuzzy-cacti", name:"Fuzzy Cacti", aka:"the prickly pair", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Cacti — the least thirsty things in the house."},
+ {id:"haworthia", name:"Haworthia", aka:"in the glass with pebbles", room:"bed", interval:7, quote:"All these once a week.", umbrella:true},
+ {id:"zz-cabinet", name:"ZZ Plant", aka:"pink pot on the green cabinet", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Very forgiving — better late than soggy."},
+ {id:"snake-bookshelf", name:"Snake Plant (bookshelf)", aka:"guarding the book collection", room:"shelf", interval:7, quote:"Once a week."},
+ {id:"pothos", name:"Golden Pothos", aka:"trailing off the top shelf", room:"shelf", interval:2, quote:"Keep moist.", note:"Check every day or two — water when the top of the soil feels dry."},
+ {id:"prop-jar", name:"Cuttings Jar", aka:"purple-heart cuttings in water", room:"shelf", interval:7, type:"check", quote:"(no instruction — it’s a water jar)", umbrella:true, note:"Just top up the water if it looks low."},
+ {id:"wall-zz", name:"Wall ZZ Plant", aka:"upper white wall pot", room:"liv", interval:7, quote:"Once a week."},
+ {id:"wall-purple-heart", name:"Wall Purple Heart", aka:"lower white wall pot", room:"liv", interval:7, quote:"Once a week."},
+ {id:"calathea", name:"Calathea", aka:"pinstripe leaves, coffee table", room:"liv", interval:2, quote:"Every other day.", note:"Don’t let it dry out completely — it sulks dramatically."},
+ {id:"croton", name:"Croton", aka:"the technicolor one", room:"liv", interval:2, quote:"Every couple of days.", note:"Droopy leaves = thirsty. Perks back up fast."},
+ {id:"rubber-big", name:"Big Rubber Tree", aka:"white pot by the sofa", room:"liv", interval:7, quote:"Once a week."},
+ {id:"fiddle", name:"Fiddle-Leaf Fig", aka:"THE CRAZY THING — white slotted pot", room:"liv", interval:1, quote:"It is greedy and thirsty. The whole thing, full — every day. Just once a day.", note:"The one plant that gets an ENTIRE watering can. Yes, the full can. Every day."},
+ {id:"navy-pot-tree", name:"Big Tree (navy pot)", aka:"the fiddle’s neighbor on the wood riser", room:"liv", interval:1, quote:"The other smaller tree by its side? Those are all just the drink.", note:"Regular little drink — NOT the full-can treatment. (Money tree? Ficus Audrey? Peter just calls it the other tree.)"},
+ {id:"braided-money-tree", name:"Braided Money Tree #2", aka:"white fluted pot, disco ball & owl", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true, note:"The one decorated with the disco ball and the little owl."},
+ {id:"olive-tree-white", name:"Olive Tree", aka:"silvery leaves, white fluted pot", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"citrus", name:"Young Citrus", aka:"slate-blue pot", room:"liv", interval:1, quote:"It’s the same thing for all of them — just a little drink, little drink. They all get that every day.", note:"Possibly a lemon or lime. A splash a day."},
+ {id:"shrub-grey", name:"Little-Leaf Shrub", aka:"dense tiny leaves, grey pot on the stand", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"shrub-teal", name:"Silvery Shrub", aka:"teal pot by the window", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"mint-shrub", name:"Staked Green Shrub", aka:"mint pot, bamboo stakes", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"cream-fluted-shrub", name:"Bushy Shrub", aka:"cream fluted pot by the lamp", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"beige-urn-shrub", name:"Shrub in the Beige Urn", aka:"on the wooden cross stand", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"teal-sapling", name:"Baby Sapling", aka:"dark teal pot with the water spike", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true, note:"Tiny thing with a stake and a white watering spike."},
+ {id:"floor-trailing", name:"Trailing Plant (floor)", aka:"scalloped leaves at the fiddle’s feet", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"zebra-plant", name:"Zebra Plant", aka:"white-veined leaves, low in front", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"baby-jade", name:"Baby Jade (floor)", aka:"sage-green pot under the stand", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true, note:"It’s a succulent — make its daily drink a tiny one."},
+ {id:"side-table-mini", name:"Side-Table Mini", aka:"variegated cutie by the ball lamp", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"juniper-bonsai", name:"Juniper Bonsai", aka:"stone slab on the black tray", room:"bonsai", interval:1, quote:"You can just water the pan — water the pan until it comes up to the edge, and then it’ll suck up what it needs.", note:"Don’t water the top — fill the black TRAY under the slab to the rim."},
+ {id:"bowl-bonsai", name:"Bonsai Bowl", aka:"the sparse one in the grey bowl", room:"bonsai", interval:1, quote:"Every day, just a little bit. That’s a drink — just a little bit.", note:"Looks half-asleep, still counts. Dried leaves on the soil are its mulch blanket."},
+ {id:"variegated-tree", name:"Variegated Tree", aka:"bushy one, terracotta pot", room:"bonsai", interval:1, quote:"This one loves water. Every day — every day loves water.", note:"The thirstiest thing on this sill — a proper drink daily."},
+ {id:"avocado", name:"Avocado Sapling", aka:"tall stick in the white pot", room:"bonsai", interval:2, quote:"Probably every other day — so like three times a week, let’s say.", note:"Peter wavered between daily and every-other-day. Every other day is the official ruling."},
+ {id:"clear-snake", name:"Snake Plant (clear pot)", aka:"you can see the soil through it", room:"bonsai", interval:1, type:"check", quote:"You can see in there — if it’s wet, leave it alone.", note:"Daily peek through the clear pot: wet soil = walk away, dry soil = water."},
+ {id:"staked-sprout", name:"Staked Sprout", aka:"white pot, bamboo stake, tiny sprout", room:"bonsai", interval:1, quote:"(no specific instruction)", umbrella:true, note:"Lives on the daily sill — give it a small splash with the others."},
+ {id:"sill-fern", name:"Little Fern", aka:"at the end of the sill", room:"bonsai", interval:1, quote:"(no specific instruction)", umbrella:true, note:"Ferns like staying lightly moist — small daily splash."},
+ {id:"fittonia", name:"The Sad Pot", aka:"mint pot — officially beyond help", room:"bonsai", type:"none", quote:"What the hell is going on in here? — I don’t know. It doesn’t, it doesn’t like anything.", note:"Peter’s words. Nothing to do here — leave it alone. (The two tiny cups next to it have no instructions either — ignore those too.)"},
+ {id:"desert-rose", name:"Desert Rose", aka:"fat trunk, blue-striped pot", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"kitchen-juniper", name:"Juniper Tree", aka:"the crispy little christmas tree", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Browning at the edges — daily little drink is the prescription."},
+ {id:"pilea", name:"Pilea", aka:"coin leaves, by the juniper’s big pot", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"kitchen-sapling", name:"Kitchen Sapling", aka:"skinny young tree on the shelf", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"zebra-pot-trailing", name:"Zebra-Pot Trailer", aka:"striped pot, trailing stems", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"basil", name:"Basil", aka:"the edible one", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Herbs wilt fast — don’t skip its day."},
+ {id:"twiggy-shrub", name:"Twiggy Shrub", aka:"bare little branches, dark pot", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"vase-sprout", name:"Vase Sprout", aka:"sprouting in the glass vase", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"If it’s sitting in water, just keep the level topped up."},
+ {id:"rosemary", name:"Rosemary", aka:"ceramic pot on the sill", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"sage", name:"Sage", aka:"soft grey-green leaves", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"kitchen-snake", name:"Snake Plant (yellow edge)", aka:"tall one behind the sink shelf", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Snake plants barely drink — make its daily bit a tiny one."},
+ {id:"kitchen-purple-heart", name:"Purple Heart", aka:"purple stems, terracotta", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"burros-tail", name:"Burro’s Tail", aka:"chunky trailing succulent in glass", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Succulent — a few drops count as its ‘little bit’."},
+ {id:"kalanchoe", name:"Kalanchoe", aka:"scalloped leaves, small pot", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"green-onions", name:"Green Onions", aka:"the window salad bar", room:"kit", interval:1, quote:"Fill up the tray also.", note:"Water the soil AND top up the tray underneath — they drink from below."},
+ {id:"neon-pothos", name:"Neon Pothos Cutting", aka:"lime leaf in the copper cups", room:"kit", interval:1, quote:"(no specific instruction)", umbrella:true, note:"Lives with the onion crew — small daily splash."},
+ {id:"mystery-pot", name:"The Mystery Pot", aka:"under plastic wrap, blue-rim pot", room:"kit", interval:1, type:"check", quote:"Open and spray the soil with the green water bottle.", note:"Daily peek: unwrap, look at the soil — dry = spray it with the green bottle, wet = wrap it back and walk away."},
+ {id:"yellow-pot-cane", name:"Yellow-Pot Cane", aka:"lower shelf, mustard pot", room:"kit", interval:1, quote:"(no specific instruction)", umbrella:true, note:"On the same shelf as the mystery pot — daily little splash."},
 ];
+const GAL = {
+ "fiddle":["v2a-01-fiddle-leaf-fig","v1b-01-fiddle-leaf-fig","v2b-01-fiddle-leaf-fig","v2c-01-fiddle-leaf-fig","p700-03-corner-green"],
+ "navy-pot-tree":["v2b-03-money-tree","v2a-02-ficus-audrey","v2c-02-ficus-altissima","v1b-02-money-tree"],
+ "braided-money-tree":["v2b-04-braided-money-tree"],
+ "citrus":["v1b-06-sapling-slate-pot"],
+ "shrub-grey":["v2c-04-azalea-bush","v2a-03-olive-shrub","v2b-06-olive-like-shrub"],
+ "shrub-teal":["v2b-05-flowering-shrub","v1b-08-teal-pot-plant"],
+ "mint-shrub":["v1b-05-shrub-mint-pot","v2a-04-staked-sapling"],
+ "teal-sapling":["v2b-02-young-sapling"],
+ "floor-trailing":["v2c-05-swedish-ivy"],
+ "zebra-plant":["v2c-06-zebra-plant","v2a-05-serrated-shrub"],
+ "baby-jade":["v1b-07-jade-sage-pot","v1b-10-jade-white-pot"],
+ "side-table-mini":["v1b-09-variegated-jade-lamp"],
+ "olive-tree-white":["v2c-03-olive-tree"],
+ "cream-fluted-shrub":["v2b-07-gardenia","v1b-03-shrub-fluted-pot"],
+ "beige-urn-shrub":["v1b-04-shrub-beige-urn"],
+ "juniper-bonsai":["v0c-02-juniper-bonsai","v0a-01-juniper-bonsai","v0b-01-juniper-bonsai","v0b-10-succulent-tray"],
+ "bowl-bonsai":["v0c-03-deciduous-bonsai","v0b-03-defoliated-tree","v0a-02-gray-bowl-sapling"],
+ "variegated-tree":["v0b-04-variegated-tree","v0a-03-variegated-schefflera","v0b-02-ficus-tree","v0b-11-terracotta-tree","v0c-04-terracotta-plant"],
+ "avocado":["v0b-09-avocado-seedling"],
+ "clear-snake":["v0b-07-snake-plant","v0c-06-snake-plant"],
+ "staked-sprout":["v0b-05-white-pot-seedling","v0a-04-seedling-pot","v0c-01-staked-cutting"],
+ "sill-fern":["v0c-05-boston-fern"],
+ "fittonia":["v0c-07-fittonia","v0b-08-small-succulent"],
+ "money-tree":["p692-01-money-tree","p694-02-large-leaf-ficus"],
+ "woolly-cactus":["p692-02-woolly-cactus"],
+ "rubber-small":["p694-01-rubber-plant","p692-03-dark-leaf-edge"],
+ "glass-succulent":["p694-03-succulent"],
+ "sill-jade":["p696-01-jade-plant"],
+ "sill-snake":["p696-02-snake-plant"],
+ "echeveria-boat":["p696-03-succulent-boat"],
+ "echeveria-bowl":["p696-04-echeveria-mix"],
+ "spider-plant":["p696-05-spider-plant"],
+ "fuzzy-cacti":["p696-06-fuzzy-cactus"],
+ "haworthia":["p696-07-haworthia"],
+ "zz-cabinet":["p696-08-zz-plant"],
+ "snake-bookshelf":["p695-01-snake-plant"],
+ "pothos":["p701-01-pothos"],
+ "prop-jar":["p701-02-purple-heart-cutting"],
+ "wall-zz":["p700-01-zz-plant"],
+ "wall-purple-heart":["p700-02-purple-tradescantia"],
+ "calathea":["p699-01-calathea","p699-02-background-plant"],
+ "croton":["p697-01-croton"],
+ "rubber-big":["p698-01-rubber-plant"],
+ "desert-rose":["p702-01-desert-rose"],
+ "kitchen-juniper":["p702-02-juniper","p704-02-trunk-plant"],
+ "pilea":["p702-03-pilea","p704-03-pilea"],
+ "kitchen-sapling":["p702-04-sapling"],
+ "zebra-pot-trailing":["p702-05-zebra-pot-plant"],
+ "basil":["p702-06-basil"],
+ "twiggy-shrub":["p702-07-twiggy-shrub"],
+ "vase-sprout":["p702-08-vase-sprout"],
+ "rosemary":["p702-09-rosemary"],
+ "sage":["p702-10-sage"],
+ "kitchen-snake":["p702-11-snake-plant"],
+ "kitchen-purple-heart":["p702-12-tradescantia","p703-02-purple-heart"],
+ "burros-tail":["p702-13-burros-tail"],
+ "kalanchoe":["p702-14-kalanchoe"],
+ "green-onions":["p703-01-green-onions"],
+ "neon-pothos":["p703-03-neon-pothos"],
+ "mystery-pot":["p704-01-propagation-bowl"],
+ "yellow-pot-cane":["p704-04-yellow-pot-cane"],
+};
 
-const KEY = "peter-plants-v2";
-const REMOTE = "https://jsonblob.com/api/jsonBlob/019f81cd-d71b-728e-b33d-c449741ae8d4";
-let store = load();
-let filter = "all";
-let toastTimer = null, lastAction = null, syncTimer = null, syncing = false, lastSyncOk = null;
-
-function load(){
+/* ——— live sync: Firebase RTDB event log ——— */
+const DB = "https://peter-plants-sync-2026-default-rtdb.firebaseio.com";
+const KEY = "peter-plants-v3";
+let mirror = {}, outbox = [];
+try{ const c = JSON.parse(localStorage.getItem(KEY)); if(c){ mirror = c.mirror||{}; outbox = c.outbox||[]; } }catch(e){}
+function persist(){ localStorage.setItem(KEY, JSON.stringify({mirror, outbox})) }
+let log = {}, voided = {};
+function fold(){
+  log = {}; voided = {};
+  const seen = new Set();
+  const all = [...Object.values(mirror), ...outbox];
+  for(const ev of all){
+    if(!ev || !ev.p || !ev.t || !ev.k) continue;
+    const sig = ev.p+"|"+ev.t+"|"+ev.k;
+    if(seen.has(sig)) continue; seen.add(sig);
+    const m = ev.k==="w" ? log : voided;
+    (m[ev.p] = m[ev.p]||[]).push(ev.t);
+  }
+  for(const m of [log, voided]) for(const k in m) m[k].sort((a,b)=>a-b);
+}
+function setSync(state, txt){
+  document.getElementById("syncDot").className = state;
+  document.getElementById("syncTxt").textContent = txt;
+}
+function updateSyncBadge(){
+  if(!navigator.onLine){ setSync("off","offline — saved here"); return }
+  if(outbox.length) setSync("busy","sending "+outbox.length+"…");
+  else if(sseOpen) setSync("ok","live");
+  else setSync("busy","connecting");
+}
+async function flushOutbox(){
+  while(outbox.length){
+    const ev = outbox[0];
+    try{
+      const r = await fetch(DB+"/events.json", {method:"POST", body:JSON.stringify(ev)});
+      if(!r.ok) throw 0;
+      const {name} = await r.json();
+      mirror[name] = ev; outbox.shift(); persist();
+    }catch(e){ break }
+  }
+  updateSyncBadge();
+}
+function addEvent(p, k, t){
+  outbox.push({p, k, t}); persist(); fold(); render(); updateSyncBadge(); flushOutbox();
+}
+let sseOpen = false;
+function startSSE(){
   try{
-    const v2 = JSON.parse(localStorage.getItem(KEY));
-    if(v2 && v2.log) return {log:v2.log||{}, void:v2.void||{}};
-  }catch(e){}
-  try{ // migrate v1 (pre-sync)
-    const v1 = JSON.parse(localStorage.getItem("peter-plants-v1"));
-    if(v1 && v1.log) return {log:v1.log, void:{}};
-  }catch(e){}
-  return {log:{}, void:{}};
+    const es = new EventSource(DB+"/events.json");
+    es.addEventListener("put", e=>{
+      const {path, data} = JSON.parse(e.data);
+      if(path==="/"){ mirror = data||{} }
+      else{ const k = path.slice(1); if(data===null) delete mirror[k]; else mirror[k]=data; }
+      sseOpen = true; persist(); fold(); render(); updateSyncBadge();
+    });
+    es.addEventListener("patch", e=>{
+      const {data} = JSON.parse(e.data);
+      Object.assign(mirror, data||{}); persist(); fold(); render();
+    });
+    es.onopen = ()=>{ sseOpen = true; updateSyncBadge(); flushOutbox(); };
+    es.onerror = ()=>{ sseOpen = false; updateSyncBadge(); };
+  }catch(e){ setSync("off","offline — saved here") }
 }
-function save(){ localStorage.setItem(KEY, JSON.stringify(store)) }
-function mergeMaps(a,b){
-  const out = {};
-  for(const k of new Set([...Object.keys(a||{}), ...Object.keys(b||{})]))
-    out[k] = [...new Set([...(a[k]||[]), ...(b[k]||[])])].sort((x,y)=>x-y);
-  return out;
-}
-function mergeStores(x,y){ return {log:mergeMaps(x.log,y.log), void:mergeMaps(x.void,y.void)} }
-function effLog(id){
-  const v = new Set(store.void[id]||[]);
-  return (store.log[id]||[]).filter(t=>!v.has(t));
-}
+window.addEventListener("online", ()=>{ flushOutbox(); updateSyncBadge(); });
+window.addEventListener("offline", updateSyncBadge);
+
+/* ——— domain ——— */
+let filter = "all", toastTimer = null, lastAction = null;
 function sod(t){ const d = new Date(t); d.setHours(0,0,0,0); return d.getTime() }
 function ymd(t){ const d = new Date(t); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0") }
+function effLog(id){ const v = new Set(voided[id]||[]); return (log[id]||[]).filter(t=>!v.has(t)) }
 function lastWatered(id){ const a = effLog(id); return a.length ? a[a.length-1] : null }
 function daysSince(id){ const lw = lastWatered(id); return lw==null ? null : Math.round((sod(Date.now())-sod(lw))/86400000) }
 function verb(p){ return p.type==="check" ? "Checked" : "Watered" }
@@ -315,68 +356,37 @@ function schedLabel(p){
   const base = p.interval===1 ? "every day" : p.interval===2 ? "every 2 days" : "once a week";
   return p.type==="check" ? base+" · check first" : base;
 }
-
-/* ——— sync ——— */
-function setSync(state, txt){
-  const el = document.getElementById("syncDot");
-  el.className = state; document.getElementById("syncTxt").textContent = txt;
-}
-async function sync(push){
-  if(syncing) return; syncing = true;
-  setSync("busy","syncing");
-  try{
-    const r = await fetch(REMOTE, {headers:{"Accept":"application/json"}, cache:"no-store"});
-    let remote = {log:{}, void:{}};
-    if(r.ok){ const j = await r.json(); if(j && (j.log||j.void)) remote = {log:j.log||{}, void:j.void||{}}; }
-    const merged = mergeStores(store, remote);
-    const changedLocal = JSON.stringify(merged)!==JSON.stringify(store);
-    const needPush = push || JSON.stringify(merged)!==JSON.stringify({log:remote.log,void:remote.void});
-    store = merged; save();
-    if(needPush){
-      await fetch(REMOTE, {method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(store)});
-    }
-    lastSyncOk = Date.now();
-    setSync("ok","synced");
-    if(changedLocal) render();
-  }catch(e){
-    setSync("off","offline — saved here");
-  }finally{ syncing = false; }
-}
-function queueSync(){ clearTimeout(syncTimer); syncTimer = setTimeout(()=>sync(true), 400); }
-
-/* ——— actions ——— */
 function water(id, ev){
   const p = PLANTS.find(x=>x.id===id);
-  (store.log[id] = store.log[id] || []).push(Date.now());
-  save(); lastAction = {id, ts: store.log[id][store.log[id].length-1]};
+  const t = Date.now();
+  lastAction = {id, t};
   if(ev){ const btn = ev.currentTarget;
     for(let i=0;i<5;i++){ const s=document.createElement("span"); s.className="drop"; s.textContent="💧";
       s.style.left=(15+Math.random()*70)+"%"; s.style.top="-4px"; s.style.animationDelay=(Math.random()*.2)+"s";
       btn.appendChild(s); setTimeout(()=>s.remove(),1100); } }
-  setTimeout(render, ev?300:0);
   toast(`${p.name} — ${verb(p).toLowerCase()} ✓`, true);
-  queueSync();
+  setTimeout(()=>addEvent(id, "w", t), ev?280:0);
 }
 function waterAllDue(){
-  const due = PLANTS.filter(p=>visible(p) && stat(p).rank===0 && p.type!=="check");
-  const now = Date.now();
-  due.forEach(p=>{ (store.log[p.id] = store.log[p.id]||[]).push(now) });
-  lastAction = null; save(); render(); queueSync();
-  toast(`${due.length} plants marked watered ✓ (check-first pots left alone)`, false);
+  const due = PLANTS.filter(p=>visible(p) && stat(p).rank===0 && p.type!=="check" && p.type!=="none");
+  const t = Date.now();
+  due.forEach(p=>{ outbox.push({p:p.id, k:"w", t}) });
+  lastAction = null; persist(); fold(); render(); flushOutbox();
+  toast(`${due.length} plants marked watered ✓ (check-first pots left for you)`, false);
 }
 function undo(){
   if(!lastAction) return;
-  (store.void[lastAction.id] = store.void[lastAction.id] || []).push(lastAction.ts);
-  lastAction = null; save(); render(); queueSync(); toast("Undone", false);
+  addEvent(lastAction.id, "v", lastAction.t);
+  lastAction = null; toast("Undone", false);
 }
 function setLast(id, val){
   if(!val) return;
   const [y,m,d] = val.split("-").map(Number);
   const t = new Date(y, m-1, d, 12, 0, 0).getTime();
   const cur = lastWatered(id);
-  if(cur!=null) (store.void[id] = store.void[id]||[]).push(cur);
-  (store.log[id] = store.log[id]||[]).push(t);
-  save(); render(); queueSync(); toast("Date updated ✓", false);
+  if(cur!=null) outbox.push({p:id, k:"v", t:cur});
+  addEvent(id, "w", t);
+  toast("Date updated ✓", false);
 }
 function toast(msg, withUndo){
   const t = document.getElementById("toast");
@@ -406,7 +416,7 @@ function card(p){
     </div>
     <div class="body">
       <div class="name">${p.name}</div>
-      <div class="sched"><b>${schedLabel(p)}</b>${p.type==="none"?"":" · "+agoLabel(p.id)}</div>
+      <div class="sched"><b>${schedLabel(p)}</b>${p.type==="none"?"":"<br>"+agoLabel(p.id)}</div>
       <div class="actions">${btn}<button class="mini" onclick="openSheet('${p.id}')">ℹ︎</button></div>
     </div>
   </div>`;
@@ -426,11 +436,9 @@ function render(){
   document.getElementById("summary").innerHTML = sum;
   const total = due.length + fresh.length + doneToday.length;
   document.getElementById("bar").style.width = total? Math.round(100*doneToday.length/total)+"%" : "100%";
-
   const chips = [["all","All"],["due","💧 Needs water"],...Object.entries(ROOMS)];
   document.getElementById("chips").innerHTML = chips.map(([k,l])=>
     `<button class="chip ${filter===k?'on':''}" onclick="filter='${k}';render()">${l}</button>`).join("");
-
   const list = PLANTS.filter(visible);
   const roomOrder = Object.keys(ROOMS);
   const bySort = (a,b)=> roomOrder.indexOf(a.room)-roomOrder.indexOf(b.room) || a.name.localeCompare(b.name);
@@ -441,7 +449,7 @@ function render(){
   if(needs.length){
     const bulkable = needs.filter(p=>p.type!=="check").length;
     html += `<div class="group-head"><div class="group-title">💧 Water now <span class="count">${needs.length}</span></div>
-      ${bulkable>1?`<button class="bulk" onclick="waterAllDue()">✓ Mark all ${bulkable} watered</button>`:""}</div>
+      ${bulkable>1?`<button class="bulk" onclick="waterAllDue()">✓ mark all ${bulkable} watered</button>`:""}</div>
       <div class="grid">${needs.map(card).join("")}</div>`;
   }
   if(noRec.length) html += `<div class="group-head"><div class="group-title">🌱 No record yet <span class="count">${noRec.length}</span></div></div><div class="grid">${noRec.map(card).join("")}</div>`;
@@ -455,12 +463,16 @@ function openSheet(id){
   const hist = effLog(id).slice(-5).reverse().map(t=>
     "• " + new Date(t).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"}) +
     ", " + new Date(t).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"})).join("<br>") || "—";
+  const gal = (GAL[id]||[]);
+  const galHtml = gal.length>1 ? `<div class="gal">`+gal.map((g,i)=>
+    `<img src="assets/img/all/${g}.jpg" class="${i===0?'on':''}" onclick="swapBig(this,'${g}')" alt="angle ${i+1}">`).join("")+`</div>` : "";
   const dateRow = p.type==="none" ? "" : `
       <div class="row"><label>Last ${verb(p).toLowerCase()}</label>
         <input type="date" value="${lw? ymd(lw):""}" max="${ymd(Date.now())}" onchange="setLast('${p.id}', this.value)"></div>
       <div class="row" style="align-items:flex-start"><label>Recent</label><div class="hist">${hist}</div></div>`;
   document.getElementById("sheet").innerHTML = `
-    <img class="big" src="assets/img/plants/${p.id}.jpg" alt="${p.name}">
+    <img class="big" id="bigImg" src="assets/img/plants/${p.id}.jpg" alt="${p.name}">
+    ${galHtml}
     <div class="inner">
       <h2>${p.name}</h2>
       <div class="aka">${p.aka||""} · ${ROOMS[p.room]} · ${schedLabel(p)}</div>
@@ -472,6 +484,11 @@ function openSheet(id){
   document.getElementById("overlay").classList.add("show");
   document.body.style.overflow="hidden";
 }
+function swapBig(el, g){
+  document.getElementById("bigImg").src = "assets/img/all/"+g+".jpg";
+  document.querySelectorAll(".gal img").forEach(i=>i.classList.remove("on"));
+  el.classList.add("on");
+}
 function closeSheet(){
   document.getElementById("overlay").classList.remove("show");
   document.body.style.overflow="";
@@ -479,11 +496,9 @@ function closeSheet(){
 document.getElementById("overlay").addEventListener("click", e=>{ if(e.target.id==="overlay") closeSheet() });
 window.addEventListener("keydown", e=>{ if(e.key==="Escape") closeSheet() });
 
-render();
-sync(false);
-setInterval(()=>{ if(document.visibilityState==="visible") sync(false) }, 20000);
-document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible") sync(false) });
-window.addEventListener("focus", ()=>sync(false));
+fold(); render(); updateSyncBadge();
+fetch(DB+"/events.json").then(r=>r.json()).then(d=>{ mirror = d||{}; persist(); fold(); render(); flushOutbox(); }).catch(()=>setSync("off","offline — saved here"));
+startSSE();
 setInterval(render, 10*60*1000);
 </script>
 </body>
