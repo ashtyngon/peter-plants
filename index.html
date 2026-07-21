@@ -64,31 +64,14 @@ main{max-width:1120px;margin:0 auto;padding:12px 14px}
 .group-title .count{font-family:-apple-system,system-ui,sans-serif;font-size:11.5px;font-weight:700;background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:2px 9px}
 .bulk{border:1.5px solid var(--terra);background:transparent;color:var(--terra);font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:99px;cursor:pointer}
 .bulk:active{background:var(--terra);color:var(--bg)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
-@media(max-width:430px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}}
-.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;position:relative;padding:7px 7px 9px}
-.card.overdue{border-color:var(--over-edge)}
-.card.due-now{border-color:var(--due-edge)}
-.ph{position:relative;cursor:pointer}
-.ph img{display:block;width:100%;aspect-ratio:1/1.06;object-fit:cover;background:var(--line);border-radius:120px 120px 12px 12px}
-.status{position:absolute;left:50%;transform:translateX(-50%);bottom:-7px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap;box-shadow:var(--shadow)}
-.status.due{background:var(--due-bg);color:var(--due-ink);outline:1.5px solid var(--due-edge)}
-.status.over{background:var(--over-bg);color:var(--over-ink);outline:1.5px solid var(--over-edge)}
-.status.good{background:var(--good-bg);color:var(--good-ink);outline:1.5px solid var(--good-edge)}
-.status.none{background:var(--none-bg);color:var(--none-ink);outline:1.5px solid var(--none-edge)}
-.room-tag{position:absolute;right:7px;top:7px;background:color-mix(in srgb,var(--ink) 60%,transparent);color:var(--bg);font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:99px;max-width:80%;overflow:hidden;text-overflow:ellipsis}
-.body{padding:13px 4px 0;display:flex;flex-direction:column;gap:5px;flex:1;text-align:center}
-.name{font-family:"Fraunces",Georgia,serif;font-size:15px;font-weight:600;line-height:1.15;margin:0}
-.sched{font-size:11.5px;color:var(--muted);line-height:1.35}
-.sched b{color:var(--green);text-transform:uppercase;letter-spacing:.04em;font-size:11px}
-.actions{display:flex;gap:6px;margin-top:auto;padding-top:6px}
-.water{flex:1;position:relative;overflow:hidden;border:0;border-radius:10px;background:var(--green);color:var(--bg);font-size:12.5px;font-weight:700;padding:12px 6px;min-height:44px;cursor:pointer;transition:transform .1s}
-.water:active{transform:scale(.96)}
+.rowlist{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden}
+.sub-room{padding:12px 14px 8px;font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.rowlist .prow:first-of-type{border-top:0}
+.prow.due{box-shadow:inset 3px 0 0 var(--due-edge)}
+.prow.over{box-shadow:inset 3px 0 0 var(--over-edge)}
+.pm b.due{color:var(--due-ink)} .pm b.over{color:var(--over-ink)}
 :is(button,input,a):focus-visible{outline:2.5px solid var(--terra);outline-offset:2px}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
-.water.done{background:var(--good-bg);color:var(--good-ink);box-shadow:inset 0 0 0 1.5px var(--good-edge)}
-.water[disabled]{background:var(--none-bg);color:var(--none-ink);cursor:default}
-.mini{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:0 12px;min-height:44px;font-size:13px;cursor:pointer}
 .hint[hidden]{display:none}
 .hint{max-width:1120px;margin:12px auto 0;padding:11px 14px;background:var(--green-soft);border:1px solid var(--line);border-radius:14px;font-size:13.5px;line-height:1.55;display:flex;gap:10px;align-items:flex-start}
 .hint b{color:var(--green)}
@@ -116,8 +99,8 @@ details.acc[open] summary .chev{transform:rotate(90deg)}
 .prow:active{background:var(--green-soft)}
 .prow img{width:42px;height:42px;border-radius:12px;object-fit:cover;flex-shrink:0}
 .prow .pi{flex:1;min-width:0}
-.prow .pn{font-weight:650;font-size:14px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prow .pm{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .pn{display:block;font-weight:650;font-size:14px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .pm{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
 .prow .rowbtn{flex-shrink:0;border:1.5px solid var(--line);background:transparent;border-radius:10px;min-width:44px;min-height:44px;font-size:16px;cursor:pointer;color:var(--green)}
 .prow .rowbtn.done{border-color:var(--good-edge);background:var(--good-bg)}
 .empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
@@ -125,7 +108,7 @@ details.acc[open] summary .chev{transform:rotate(90deg)}
 .overlay.show{display:flex}
 .sheet{background:var(--card);width:100%;max-width:560px;max-height:93vh;overflow-y:auto;border-radius:22px 22px 0 0;padding:10px 10px calc(16px + env(safe-area-inset-bottom))}
 @media(min-width:640px){.overlay{align-items:center}.sheet{border-radius:22px;max-height:88vh}}
-.sheet img.big{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:var(--line);border-radius:160px 160px 14px 14px;transition:opacity .15s}
+.sheet img.big{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--line);border-radius:16px;transition:opacity .15s}
 .gal{display:flex;gap:7px;overflow-x:auto;padding:9px 2px 2px;scrollbar-width:none}
 .gal::-webkit-scrollbar{display:none}
 .galb{padding:0;border:2px solid transparent;border-radius:12px;background:none;cursor:pointer;flex:0 0 auto;min-width:56px;min-height:56px}
@@ -157,10 +140,10 @@ footer a{color:var(--terra);font-weight:600}
   <div class="progress"><i id="bar"></i></div>
   <div class="chips" id="chips"></div>
 </header>
-<div style="padding:0 14px"><div class="hint" id="hint" hidden>🌿 <span><b>How this works:</b> tap <b>💧 Watered</b> after you water a plant — its card turns green and shows the next due day. Amber = due today, red = overdue. Everyone who opens this page shares the same live board, so it doesn’t matter whose phone logs it.</span> <button onclick="dismissHint()" aria-label="Dismiss hint">Got it</button></div></div>
+<div style="padding:0 14px"><div class="hint" id="hint" hidden>🌿 <span><b>How this works:</b> tap <b>💧</b> next to a plant after you water it — it jumps to “Done today”. Amber edge = due, red = overdue. Everyone who opens this page shares the same live board, so it doesn’t matter whose phone logs it.</span> <button onclick="dismissHint()" aria-label="Dismiss hint">Got it</button></div></div>
 <main id="main"></main>
 <footer>Every plant from Peter’s July 5 walkthrough — his photos, his videos (frame by frame), his exact words.<br>
-Live-synced: everyone on this page sees the same board. · <a href="frames.html">Browse the full archive →</a><br><span style="opacity:.65">build: Jul 20, 9:20 PM</span></footer>
+Live-synced: everyone on this page sees the same board. · <a href="frames.html">Browse the full archive →</a><br><span style="opacity:.65">build: Jul 21, morning</span></footer>
 
 <div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -183,8 +166,8 @@ const PLANTS = [
  {id:"snake-bookshelf", name:"Snake Plant (bookshelf)", aka:"guarding the book collection", room:"shelf", interval:7, quote:"Once a week."},
  {id:"pothos", name:"Golden Pothos", aka:"trailing off the top shelf", room:"shelf", interval:2, quote:"Keep moist.", note:"Check every day or two — water when the top of the soil feels dry."},
  {id:"prop-jar", name:"Cuttings Jar", aka:"purple-heart cuttings in the old candle jar", room:"shelf", interval:7, type:"check", quote:"(no instruction from Peter)", umbrella:true, note:"Planted in soil, having a hard time. A gentle weekly splash — that’s it."},
- {id:"orchid-square", name:"Orchid (square vase)", aka:"phalaenopsis on the kitchen table", room:"kit", interval:3, type:"check", quote:"You can see in there — if it’s wet, leave it alone.", note:"Peter’s rule for see-through pots, applied to the glass vase: peek every few days — bark still damp = walk away; bone dry = a small drink. Never leave it sitting in water."},
- {id:"orchid-round", name:"Orchid (round vase)", aka:"phalaenopsis on the kitchen table", room:"kit", interval:3, type:"check", quote:"You can see in there — if it’s wet, leave it alone.", note:"Same deal as its sibling: look through the glass every few days, water only when the bark is dry."},
+ {id:"orchid-square", name:"Orchid (square vase)", aka:"phalaenopsis on the kitchen table", room:"kit", type:"none", quote:"The orchids should be in the ‘nothing ever needed’ category for now.", cite:"Peter’s note, July 21", note:"Per Peter: hands off both orchids for the time being."},
+ {id:"orchid-round", name:"Orchid (round vase)", aka:"phalaenopsis on the kitchen table", room:"kit", type:"none", quote:"The orchids should be in the ‘nothing ever needed’ category for now.", cite:"Peter’s note, July 21", note:"Per Peter: hands off both orchids for the time being."},
  {id:"wall-zz", name:"Wall ZZ Plant", aka:"upper white wall pot", room:"liv", interval:7, quote:"Once a week."},
  {id:"wall-purple-heart", name:"Wall Purple Heart", aka:"lower white wall pot", room:"liv", interval:7, quote:"Once a week."},
  {id:"calathea", name:"Calathea", aka:"pinstripe leaves, coffee table", room:"liv", interval:2, quote:"Every other day.", note:"Don’t let it dry out completely — it sulks dramatically."},
@@ -194,10 +177,10 @@ const PLANTS = [
  {id:"navy-pot-tree", name:"Big Tree (navy pot)", aka:"the fiddle’s neighbor on the wood riser", room:"liv", interval:1, quote:"The other smaller tree by its side? Those are all just the drink.", note:"Regular little drink — NOT the full-can treatment. Up close it looks like a Ficus Audrey."},
  {id:"citrus", name:"Young Citrus", aka:"slate-blue pot", room:"liv", interval:1, quote:"It’s the same thing for all of them — just a little drink, little drink. They all get that every day.", note:"Possibly a lemon or lime. A splash a day."},
  {id:"shrub-teal", name:"Olive Tree", aka:"silvery leaves, sage pot by the window", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
- {id:"cream-fluted-shrub", name:"Glossy Shrub", aka:"white pot on the wood stand (gardenia?)", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true},
+ {id:"cream-fluted-shrub", name:"Gardenia", aka:"glossy shrub, white pot on the wood stand", room:"liv", interval:1, type:"check", quote:"Take care not to overwater the gardenia — it’s easy to do. Check that the soil is moist but not wet. 😉", cite:"Peter’s note, July 21", note:"Finger-test before watering: soil moist = skip today; drying out = a modest drink."},
  {id:"side-table-mini", name:"Side-Table Peperomia", aka:"struggling variegated one, grey pot by the ball lamp", room:"liv", interval:1, quote:"They all get that every day.", umbrella:true, note:"The corner’s problem child — half its leaves have crisped up. Keep the daily drink small and steady; don’t try to fix it by flooding it."},
  {id:"juniper-bonsai", name:"Juniper Bonsai", aka:"stone slab on the black tray", room:"bonsai", interval:1, quote:"You can just water the pan — water the pan until it comes up to the edge, and then it’ll suck up what it needs.", note:"Don’t water the top — fill the black TRAY under the slab to the rim."},
- {id:"bowl-bonsai", name:"Bonsai Bowl", aka:"the sparse one in the grey bowl", room:"bonsai", interval:1, quote:"Every day, just a little bit. That’s a drink — just a little bit.", note:"Looks half-asleep, still counts. Dried leaves on the soil are its mulch blanket."},
+ {id:"bowl-bonsai", name:"Bonsai Seed Pot", aka:"the sparse one in the grey bowl", room:"bonsai", interval:1, quote:"The bonsai seed pot needs only a light spray of water to keep the topsoil moist.", cite:"Peter’s note, July 21", note:"Spray, don’t pour — just enough to keep the topsoil moist. The dried leaves are its mulch blanket."},
  {id:"variegated-tree", name:"Variegated Tree", aka:"bushy one, terracotta pot", room:"bonsai", interval:1, quote:"This one loves water. Every day — every day loves water.", note:"The thirstiest thing on this sill — a proper drink daily."},
  {id:"avocado", name:"Avocado Sapling", aka:"white pot with the bamboo stake", room:"bonsai", interval:2, quote:"Probably every other day — so like three times a week, let’s say.", note:"The tall stem from Peter’s video is gone — what’s left is the staked pot with a fresh sprout at the base. Same schedule: every other day."},
  {id:"clear-snake", name:"Snake Plant (clear pot)", aka:"you can see the soil through it", room:"bonsai", interval:1, type:"check", quote:"You can see in there — if it’s wet, leave it alone.", note:"Daily peek through the clear pot: wet soil = walk away, dry soil = water."},
@@ -454,26 +437,6 @@ function visible(p){
   if(ROOMS[filter]) return p.room===filter;
   return true;
 }
-function card(p){
-  const s = stat(p);
-  const wateredToday = p.type!=="none" && daysSince(p.id)===0;
-  const btn = p.type==="none"
-    ? `<button class="water" disabled>Nothing to do</button>`
-    : `<button class="water ${wateredToday?'done':''}" aria-label="Mark ${p.name} ${verb(p).toLowerCase()}" onclick="water('${p.id}', event)">
-        ${wateredToday ? verb(p)+" ✓" : "💧 "+(p.type==="check"?"Checked":"Watered")}</button>`;
-  return `<div class="card ${s.k==='over'?'overdue': s.rank===0?'due-now':''}">
-    <div class="ph" onclick="openSheet('${p.id}')">
-      <img src="assets/img/plants/${p.id}.jpg" alt="${p.name}" loading="lazy">
-      <span class="room-tag">${ROOMS[p.room]}</span>
-      <span class="status ${s.k}">${s.k==='due'?'💧 ':s.k==='over'?'🥀 ':s.k==='good'?'✓ ':''}${s.label}</span>
-    </div>
-    <div class="body">
-      <div class="name">${p.name}</div>
-      <div class="sched"><b>${schedLabel(p)}</b>${p.type==="none"?"":"<br>"+agoLabel(p.id)}</div>
-      <div class="actions">${btn}<button class="mini" aria-label="Details: ${p.name}" onclick="openSheet('${p.id}')">ℹ︎</button></div>
-    </div>
-  </div>`;
-}
 function render(){
   const now = new Date();
   document.getElementById("todayLabel").textContent =
@@ -508,14 +471,31 @@ function render(){
     const d = new Date(sod(Date.now()) + di*86400000);
     return `Due ${dayNames[d.getDay()]}${di>=7?" (in a week)":""}`;
   };
+  const row = p => {
+    const st = stat(p);
+    const wateredToday = p.type!=="none" && daysSince(p.id)===0;
+    const acc = st.rank===0 ? (st.k==="over"?" over":" due") : "";
+    const stTxt = st.rank===0 ? `<b class="${st.k}">${st.label}</b> · ` : "";
+    const btn = p.type==="none" ? `<span style="width:44px;text-align:center">😴</span>`
+      : `<button class="rowbtn ${wateredToday?'done':''}" aria-label="Mark ${p.name} ${verb(p).toLowerCase()}" onclick="event.stopPropagation();water('${p.id}', event)">${wateredToday?'✓':'💧'}</button>`;
+    return `<div class="prow${acc}" onclick="openSheet('${p.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openSheet('${p.id}')">
+      <img src="assets/img/plants/${p.id}.jpg" alt="" loading="lazy">
+      <span class="pi"><span class="pn">${p.name}</span><span class="pm">${stTxt}${ROOMS[p.room]} · ${schedLabel(p)}</span></span>
+      ${btn}
+    </div>`;
+  };
   let html = "";
   if(needs.length){
     const bulkable = needs.filter(p=>p.type!=="check").length;
     html += `<div class="group-head"><h2 class="group-title">💧 Needs water <span class="count">${needs.length}</span></h2>
-      ${bulkable>1?`<button class="bulk" onclick="waterAllDue()">✓ mark all ${bulkable} watered</button>`:""}</div>
-      <div class="grid">${needs.map(card).join("")}</div>`;
+      ${bulkable>1?`<button class="bulk" onclick="waterAllDue()">✓ mark all ${bulkable} watered</button>`:""}</div>`;
+    roomOrder.forEach(rk=>{
+      const grp = needs.filter(p=>p.room===rk);
+      if(!grp.length) return;
+      html += `<div class="rowlist"><div class="sub-room">${ROOMS[rk]} · ${grp.length}</div>${grp.map(row).join("")}</div>`;
+    });
   }
-  if(noRec.length) html += `<div class="group-head"><h2 class="group-title">🌱 No record yet <span class="count">${noRec.length}</span></h2></div><div class="grid">${noRec.map(card).join("")}</div>`;
+  if(noRec.length) html += `<div class="group-head"><h2 class="group-title">🌱 No record yet <span class="count">${noRec.length}</span></h2></div><div class="rowlist">${noRec.map(row).join("")}</div>`;
   const doneNow = upcoming.filter(p=>daysSince(p.id)===0).sort(bySort);
   if(doneNow.length){
     html += `<div class="group-head"><h2 class="group-title">✓ Done today <span class="count">${doneNow.length}</span></h2></div>
@@ -523,14 +503,6 @@ function render(){
   }
   const openSet = new Set(JSON.parse(localStorage.getItem("pp-open")||"[]"));
   const avs = grp => `<span class="avs">${grp.slice(0,5).map(p=>`<img src="assets/img/plants/${p.id}.jpg" alt="" loading="lazy">`).join("")}${grp.length>5?`<span class="more">+${grp.length-5}</span>`:""}</span>`;
-  const row = p => {
-    const wateredToday = daysSince(p.id)===0;
-    return `<div class="prow" onclick="openSheet('${p.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openSheet('${p.id}')">
-      <img src="assets/img/plants/${p.id}.jpg" alt="" loading="lazy">
-      <span class="pi"><span class="pn">${p.name}</span><span class="pm">${ROOMS[p.room]} · ${schedLabel(p)}</span></span>
-      <button class="rowbtn ${wateredToday?'done':''}" aria-label="Mark ${p.name} ${verb(p).toLowerCase()}" onclick="event.stopPropagation();water('${p.id}', event)">${wateredToday?'✓':'💧'}</button>
-    </div>`;
-  };
   Object.keys(byDue).map(Number).sort((a,b)=>a-b).forEach(di=>{
     const grp = byDue[di].sort(bySort);
     const k = "due"+di;
@@ -567,7 +539,7 @@ function openSheet(id){
     <div class="inner">
       <h2>${p.name}</h2>
       <div class="aka">${p.aka||""} · ${ROOMS[p.room]} · ${schedLabel(p)}</div>
-      <div class="quote">“${p.quote}”<small>— Peter’s walkthrough, July 5${p.umbrella? " (said about this whole group)":""}</small></div>
+      <div class="quote">“${p.quote}”<small>— ${p.cite || "Peter’s walkthrough, July 5"}${p.umbrella? " (said about this whole group)":""}</small></div>
       ${p.note? `<div class="note">${p.note}</div>`:""}
       ${dateRow}
     </div>
