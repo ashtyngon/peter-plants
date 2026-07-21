@@ -466,9 +466,19 @@ function render(){
   const list = PLANTS.filter(visible);
   const roomOrder = Object.keys(ROOMS);
   const bySort = (a,b)=> roomOrder.indexOf(a.room)-roomOrder.indexOf(b.room) || a.name.localeCompare(b.name);
-  const needs = list.filter(p=>stat(p).rank===0).sort(bySort);
+  const lateOf = p => { const ds = daysSince(p.id); return ds==null ? 0 : ds - p.interval };
+  const needs = list.filter(p=>stat(p).rank===0).sort((a,b)=> lateOf(b)-lateOf(a) || bySort(a,b));
   const noRec = list.filter(p=>stat(p).rank===1).sort(bySort);
-  const good  = list.filter(p=>stat(p).rank>=2).sort((a,b)=>stat(a).rank-stat(b).rank || bySort(a,b));
+  const upcoming = list.filter(p=>stat(p).rank===2 || stat(p).rank===3);
+  const chill = list.filter(p=>stat(p).rank===4);
+  const byDue = {};
+  upcoming.forEach(p=>{ const di = p.interval - daysSince(p.id); (byDue[di] = byDue[di]||[]).push(p) });
+  const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const dueHeader = di => {
+    if(di<=1) return "💧 Due tomorrow";
+    const d = new Date(sod(Date.now()) + di*86400000);
+    return `Due ${dayNames[d.getDay()]}${di>=7?" (in a week)":""}`;
+  };
   let html = "";
   if(needs.length){
     const bulkable = needs.filter(p=>p.type!=="check").length;
@@ -477,7 +487,11 @@ function render(){
       <div class="grid">${needs.map(card).join("")}</div>`;
   }
   if(noRec.length) html += `<div class="group-head"><h2 class="group-title">🌱 No record yet <span class="count">${noRec.length}</span></h2></div><div class="grid">${noRec.map(card).join("")}</div>`;
-  if(good.length)  html += `<div class="group-head"><h2 class="group-title">✅ All good <span class="count">${good.length}</span></h2></div><div class="grid">${good.map(card).join("")}</div>`;
+  Object.keys(byDue).map(Number).sort((a,b)=>a-b).forEach(di=>{
+    const grp = byDue[di].sort(bySort);
+    html += `<div class="group-head"><h2 class="group-title">${dueHeader(di)} <span class="count">${grp.length}</span></h2></div><div class="grid">${grp.map(card).join("")}</div>`;
+  });
+  if(chill.length) html += `<div class="group-head"><h2 class="group-title">😴 Nothing ever needed <span class="count">${chill.length}</span></h2></div><div class="grid">${chill.map(card).join("")}</div>`;
   if(!html){
     const cur = ([["all","All"],["due","Needs water"],...Object.entries(ROOMS)].find(([k])=>k===filter)||["","this filter"])[1];
     html = `<div class="empty">Nothing under “${cur}” right now.<br><br><button class="chip" onclick="setFilter('all')">Show all plants</button></div>`;
