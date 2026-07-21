@@ -144,10 +144,9 @@ Live-synced: everyone on this page sees the same board. · <a href="frames.html"
 const ROOMS = {liv:"🛋 Living room", bonsai:"🌲 Bonsai sill", shelf:"📚 Bookshelf", kit:"🍳 Kitchen", tv:"📺 TV room", bed:"🛏 Bedroom"};
 const PLANTS = [
  {id:"money-tree", name:"Money Tree", aka:"braided trunk, dusty-pink pot", room:"bed", interval:7, quote:"Once a week.", note:"The tall braided one by the wooden easel."},
- {id:"woolly-cactus", name:"Woolly Cactus", aka:"little fuzzy one in the metal pot", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Sits right next to the Money Tree. A splash is plenty — it’s a cactus."},
  {id:"hanging-jade", name:"Hanging Jade", aka:"in the coral wall pot", room:"bed", interval:7, quote:"Once a week — but very little water.", note:"A few sips, not a soak. It’s a succulent."},
  {id:"rubber-small", name:"Baby Rubber Tree", aka:"navy striped pot on the sill", room:"bed", interval:7, quote:"Once a week."},
- {id:"glass-succulent", name:"Little Glass Succulent", aka:"pale rosette in the glass cup", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Tiny splash only — no drainage in glass."},
+ {id:"glass-succulent", name:"Glass Cup Succulents", aka:"rosette + tiny woolly cactus, mercury-glass cup by the money tree", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"One cup, two residents: the pale rosette up front and the little woolly cactus behind it (looking rough lately). Tiny splash only — no drainage in glass."},
  {id:"sill-jade", name:"Jade Plant", aka:"terracotta pot on the TV-room sill", room:"tv", interval:7, quote:"All these once a week.", umbrella:true, note:"Easy does it — jades store water in their leaves."},
  {id:"sill-snake", name:"Snake Plant (window)", aka:"white pot on the TV-room sill", room:"tv", interval:7, quote:"All these once a week.", umbrella:true},
  {id:"echeveria-boat", name:"Echeveria Boat", aka:"succulents in the white boat tray", room:"tv", interval:7, quote:"All these once a week.", umbrella:true, note:"Light splash around each rosette."},
@@ -191,7 +190,7 @@ const PLANTS = [
  {id:"kitchen-snake", name:"Snake Plant (yellow edge)", aka:"tall one behind the sink shelf", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Snake plants barely drink — make its daily bit a tiny one."},
  {id:"kitchen-purple-heart", name:"Purple Heart", aka:"purple stems, terracotta", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
  {id:"burros-tail", name:"Burro’s Tail", aka:"cow-print vase on the bedroom sill", room:"bed", interval:7, quote:"All these once a week.", umbrella:true, note:"Trailing chunky succulent — weekly sips like the rest of the bedroom crew."},
- {id:"kalanchoe", name:"Kalanchoe Tray", aka:"mother-of-thousands, black tray by the sink", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
+ {id:"kalanchoe", name:"Kalanchoe Tray", aka:"mother-of-thousands, black tray by the sink", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Just the black tray — the little cups and the avocado pit next to it are the ‘Sink-Sill Little Ones’ card."},
  {id:"sink-cypress", name:"Little Cypress", aka:"terracotta pot on the sink windowsill", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Going crispy-brown in places — the daily splash is its lifeline."},
  {id:"sink-minis", name:"Sink-Sill Little Ones", aka:"tiny cups by the sink (incl. the avocado pit)", room:"kit", interval:1, quote:"(no specific instruction)", umbrella:true, note:"A couple of sprout cups and an avocado-pit-on-toothpicks experiment. A few drops each; keep the pit’s water touching its bottom."},
  {id:"green-onions", name:"Green Onions", aka:"the window salad bar", room:"kit", interval:1, quote:"Fill up the tray also.", note:"Water the soil AND top up the tray underneath — they drink from below."},
@@ -214,9 +213,8 @@ const GAL = {
 
  "fittonia":["n-fittonia","v0c-07-fittonia","v0b-08-small-succulent"],
  "money-tree":["n-money-tree","p692-01-money-tree","p694-02-large-leaf-ficus"],
- "woolly-cactus":["p692-02-woolly-cactus"],
  "rubber-small":["n-rubber-small","p694-01-rubber-plant","p692-03-dark-leaf-edge"],
- "glass-succulent":["p694-03-succulent"],
+ "glass-succulent":["p694-03-succulent","p692-02-woolly-cactus"],
  "sill-jade":["n-sill-jade","p696-01-jade-plant"],
  "sill-snake":["n-sill-snake","p696-02-snake-plant"],
  "echeveria-boat":["n-echeveria-boat","p696-03-succulent-boat"],
@@ -264,7 +262,7 @@ let mirror = {}, outbox = [];
 try{ const c = JSON.parse(localStorage.getItem(KEY)); if(c){ mirror = c.mirror||{}; outbox = c.outbox||[]; } }catch(e){}
 function persist(){ localStorage.setItem(KEY, JSON.stringify({mirror, outbox})) }
 let log = {}, voided = {};
-const ID_ALIAS = {"olive-tree-white":"shrub-teal","sill-fern":null,"braided-money-tree":"navy-pot-tree","shrub-grey":"shrub-teal","mint-shrub":"citrus","beige-urn-shrub":"cream-fluted-shrub","zebra-plant":"cream-fluted-shrub","floor-trailing":"side-table-mini","baby-jade":"shrub-teal","teal-sapling":"side-table-mini","column-cactus":"haworthia","staked-sprout":"avocado"};
+const ID_ALIAS = {"olive-tree-white":"shrub-teal","sill-fern":null,"woolly-cactus":"glass-succulent","braided-money-tree":"navy-pot-tree","shrub-grey":"shrub-teal","mint-shrub":"citrus","beige-urn-shrub":"cream-fluted-shrub","zebra-plant":"cream-fluted-shrub","floor-trailing":"side-table-mini","baby-jade":"shrub-teal","teal-sapling":"side-table-mini","column-cactus":"haworthia","staked-sprout":"avocado"};
 function fold(){
   log = {}; voided = {};
   const seen = new Set();
