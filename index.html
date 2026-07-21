@@ -95,6 +95,30 @@ main{max-width:1120px;margin:0 auto;padding:12px 14px}
 .hx{border:0;background:transparent;color:var(--terra);font-weight:800;cursor:pointer;font-size:13px;padding:10px 12px;margin:-8px 0}
 .drop{position:absolute;pointer-events:none;font-size:12px;animation:fall .8s ease-in forwards}
 @keyframes fall{from{transform:translateY(-6px);opacity:1}to{transform:translateY(34px);opacity:0}}
+.done-strip{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none}
+.done-strip::-webkit-scrollbar{display:none}
+.done-strip button{flex:0 0 auto;border:0;background:none;padding:0;cursor:pointer;position:relative;width:46px}
+.done-strip img{width:44px;height:44px;border-radius:99px;object-fit:cover;display:block;border:2px solid var(--good-edge)}
+.done-strip .tick{position:absolute;right:-2px;bottom:-2px;background:var(--good-edge);color:#fff;border-radius:99px;width:17px;height:17px;font-size:11px;line-height:17px;text-align:center}
+details.acc{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden}
+details.acc summary{list-style:none;display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer;min-height:56px}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary .st{font-family:"Fraunces",Georgia,serif;font-size:16.5px;font-weight:600;flex:1;min-width:0}
+details.acc summary .st small{display:block;font-family:-apple-system,system-ui,sans-serif;font-size:11.5px;font-weight:500;color:var(--muted);margin-top:1px}
+.avs{display:flex;flex-shrink:0}
+.avs img{width:30px;height:30px;border-radius:99px;object-fit:cover;border:2px solid var(--card);margin-left:-9px}
+.avs img:first-child{margin-left:0}
+.avs .more{width:30px;height:30px;border-radius:99px;background:var(--none-bg);color:var(--none-ink);font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--card);margin-left:-9px}
+details.acc summary .chev{color:var(--muted);transition:transform .2s;flex-shrink:0}
+details.acc[open] summary .chev{transform:rotate(90deg)}
+.prow{display:flex;align-items:center;gap:11px;padding:9px 14px;border-top:1px solid var(--line);cursor:pointer;min-height:60px}
+.prow:active{background:var(--green-soft)}
+.prow img{width:42px;height:42px;border-radius:12px;object-fit:cover;flex-shrink:0}
+.prow .pi{flex:1;min-width:0}
+.prow .pn{font-weight:650;font-size:14px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .pm{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .rowbtn{flex-shrink:0;border:1.5px solid var(--line);background:transparent;border-radius:10px;min-width:44px;min-height:44px;font-size:16px;cursor:pointer;color:var(--green)}
+.prow .rowbtn.done{border-color:var(--good-edge);background:var(--good-bg)}
 .empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
 .overlay{position:fixed;inset:0;background:rgba(24,28,16,.6);z-index:40;display:none;align-items:flex-end;justify-content:center}
 .overlay.show{display:flex}
@@ -332,6 +356,10 @@ window.addEventListener("offline", updateSyncBadge);
 /* ——— domain ——— */
 let filter = localStorage.getItem("pp-filter") || "all", toastTimer = null, undoStack = [];
 function setFilter(f){ filter = f; localStorage.setItem("pp-filter", f); render() }
+function saveOpen(){
+  const open = [...document.querySelectorAll("details.acc[open]")].map(d=>d.dataset.k);
+  localStorage.setItem("pp-open", JSON.stringify(open));
+}
 function dismissHint(){ localStorage.setItem("pp-hint-done","1"); document.getElementById("hint").hidden = true }
 function showHint(){ document.getElementById("hint").hidden = false; document.getElementById("hint").scrollIntoView({block:"nearest"}) }
 function sod(t){ const d = new Date(t); d.setHours(0,0,0,0); return d.getTime() }
@@ -487,11 +515,31 @@ function render(){
       <div class="grid">${needs.map(card).join("")}</div>`;
   }
   if(noRec.length) html += `<div class="group-head"><h2 class="group-title">🌱 No record yet <span class="count">${noRec.length}</span></h2></div><div class="grid">${noRec.map(card).join("")}</div>`;
+  const doneNow = upcoming.filter(p=>daysSince(p.id)===0).sort(bySort);
+  if(doneNow.length){
+    html += `<div class="group-head"><h2 class="group-title">✓ Done today <span class="count">${doneNow.length}</span></h2></div>
+      <div class="done-strip">${doneNow.map(p=>`<button aria-label="${p.name} — done today" onclick="openSheet('${p.id}')"><img src="assets/img/plants/${p.id}.jpg" alt="" loading="lazy"><span class="tick">✓</span></button>`).join("")}</div>`;
+  }
+  const openSet = new Set(JSON.parse(localStorage.getItem("pp-open")||"[]"));
+  const avs = grp => `<span class="avs">${grp.slice(0,5).map(p=>`<img src="assets/img/plants/${p.id}.jpg" alt="" loading="lazy">`).join("")}${grp.length>5?`<span class="more">+${grp.length-5}</span>`:""}</span>`;
+  const row = p => {
+    const wateredToday = daysSince(p.id)===0;
+    return `<div class="prow" onclick="openSheet('${p.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openSheet('${p.id}')">
+      <img src="assets/img/plants/${p.id}.jpg" alt="" loading="lazy">
+      <span class="pi"><span class="pn">${p.name}</span><span class="pm">${ROOMS[p.room]} · ${schedLabel(p)}</span></span>
+      <button class="rowbtn ${wateredToday?'done':''}" aria-label="Mark ${p.name} ${verb(p).toLowerCase()}" onclick="event.stopPropagation();water('${p.id}', event)">${wateredToday?'✓':'💧'}</button>
+    </div>`;
+  };
   Object.keys(byDue).map(Number).sort((a,b)=>a-b).forEach(di=>{
     const grp = byDue[di].sort(bySort);
-    html += `<div class="group-head"><h2 class="group-title">${dueHeader(di)} <span class="count">${grp.length}</span></h2></div><div class="grid">${grp.map(card).join("")}</div>`;
+    const k = "due"+di;
+    html += `<details class="acc" data-k="${k}" ${openSet.has(k)?"open":""} ontoggle="saveOpen()">
+      <summary><span class="st">${dueHeader(di)}<small>${grp.length} plant${grp.length>1?"s":""}</small></span>${avs(grp)}<span class="chev">▶</span></summary>
+      ${grp.map(row).join("")}</details>`;
   });
-  if(chill.length) html += `<div class="group-head"><h2 class="group-title">😴 Nothing ever needed <span class="count">${chill.length}</span></h2></div><div class="grid">${chill.map(card).join("")}</div>`;
+  if(chill.length) html += `<details class="acc" data-k="chill" ${openSet.has("chill")?"open":""} ontoggle="saveOpen()">
+      <summary><span class="st">😴 Nothing ever needed<small>${chill.length}</small></span>${avs(chill)}<span class="chev">▶</span></summary>
+      ${chill.map(row).join("")}</details>`;
   if(!html){
     const cur = ([["all","All"],["due","Needs water"],...Object.entries(ROOMS)].find(([k])=>k===filter)||["","this filter"])[1];
     html = `<div class="empty">Nothing under “${cur}” right now.<br><br><button class="chip" onclick="setFilter('all')">Show all plants</button></div>`;
