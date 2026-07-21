@@ -29,7 +29,7 @@ h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:20px;margin:28
   <a class="back" href="index.html">← back to the checklist</a>
   <h1>📸 The Archive</h1>
   <div class="sub">Everything the plant hunt produced: all 96 plant crops the agents extracted, and every frame of Peter’s three walkthrough videos. If a card’s photo ever seems off, the truth is in here.</div>
-  <h2>July 20 photo session (23 originals)</h2><div class="g" id="sess"></div>
+  <h2>July 20 photo session (25 originals)</h2><div class="g" id="sess"></div>
   <h2>All plant crops (96)</h2><div class="g" id="crops"></div>
   <h2>Video 1 — the bonsai windowsill (60 frames)</h2><div class="g" id="v0"></div>
   <h2>Video 2 — the living-room window (33 frames)</h2><div class="g" id="v1"></div>
@@ -46,7 +46,7 @@ function frames(el, dir, n){
   document.getElementById(el).innerHTML=h;
 }
 frames("v0","v0",60); frames("v1","v1",33); frames("v2","v2",60);
-const SESS=["s2366","s2367","s2368","s2369","s2370","s2371","s2372","s2373","s2374","s2375","s2376","s2377","s2378","s2379","s2380","s2381","s2382","s2383","s2385","s2386","s2387","s2388","s2389"];
+const SESS=["s2366","s2367","s2368","s2369","s2370","s2371","s2372","s2373","s2374","s2375","s2376","s2377","s2378","s2379","s2380","s2381","s2382","s2383","s2385","s2386","s2387","s2388","s2389","s2390","s2391"];
 document.getElementById("sess").innerHTML = SESS.map(c=>`<figure><img loading="lazy" src="assets/img/session2/${c}.jpg" alt="${c}"><figcaption>${c}</figcaption></figure>`).join("");
 </script>
 </body>
