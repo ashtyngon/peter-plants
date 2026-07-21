@@ -157,8 +157,8 @@ const PLANTS = [
  {id:"snake-bookshelf", name:"Snake Plant (bookshelf)", aka:"guarding the book collection", room:"shelf", interval:7, quote:"Once a week."},
  {id:"pothos", name:"Golden Pothos", aka:"trailing off the top shelf", room:"shelf", interval:2, quote:"Keep moist.", note:"Check every day or two — water when the top of the soil feels dry."},
  {id:"prop-jar", name:"Cuttings Jar", aka:"purple-heart cuttings in the old candle jar", room:"shelf", interval:7, type:"check", quote:"(no instruction from Peter)", umbrella:true, note:"Planted in soil, having a hard time. A gentle weekly splash — that’s it."},
- {id:"orchid-square", name:"Orchid (square vase)", aka:"phalaenopsis on the glass table", room:"shelf", interval:7, quote:"(not in Peter’s walkthrough — found on July 20)", note:"Standard orchid move: a small drink once a week, let the bark dry out in between. Never leave it sitting in water."},
- {id:"orchid-round", name:"Orchid (round vase)", aka:"phalaenopsis by the bookshelf", room:"shelf", interval:7, quote:"(not in Peter’s walkthrough — found on July 20)", note:"Same as its sibling: small weekly drink, bark should dry between waterings."},
+ {id:"orchid-square", name:"Orchid (square vase)", aka:"phalaenopsis on the glass table", room:"shelf", interval:3, type:"check", quote:"You can see in there — if it’s wet, leave it alone.", note:"Peter’s rule for see-through pots, applied to the glass vase: peek every few days — bark still damp = walk away; bone dry = a small drink. Never leave it sitting in water."},
+ {id:"orchid-round", name:"Orchid (round vase)", aka:"phalaenopsis by the bookshelf", room:"shelf", interval:3, type:"check", quote:"You can see in there — if it’s wet, leave it alone.", note:"Same deal as its sibling: look through the glass every few days, water only when the bark is dry."},
  {id:"wall-zz", name:"Wall ZZ Plant", aka:"upper white wall pot", room:"liv", interval:7, quote:"Once a week."},
  {id:"wall-purple-heart", name:"Wall Purple Heart", aka:"lower white wall pot", room:"liv", interval:7, quote:"Once a week."},
  {id:"calathea", name:"Calathea", aka:"pinstripe leaves, coffee table", room:"liv", interval:2, quote:"Every other day.", note:"Don’t let it dry out completely — it sulks dramatically."},
@@ -184,7 +184,6 @@ const PLANTS = [
  {id:"avocado", name:"Avocado Sapling", aka:"tall stick in the white pot", room:"bonsai", interval:2, quote:"Probably every other day — so like three times a week, let’s say.", note:"Peter wavered between daily and every-other-day. Every other day is the official ruling."},
  {id:"clear-snake", name:"Snake Plant (clear pot)", aka:"you can see the soil through it", room:"bonsai", interval:1, type:"check", quote:"You can see in there — if it’s wet, leave it alone.", note:"Daily peek through the clear pot: wet soil = walk away, dry soil = water."},
  {id:"staked-sprout", name:"Staked Sprout", aka:"white pot, bamboo stake, tiny sprout", room:"bonsai", interval:1, quote:"(no specific instruction)", umbrella:true, note:"Lives on the daily sill — give it a small splash with the others."},
- {id:"sill-fern", name:"Little Fern", aka:"at the end of the sill", room:"bonsai", interval:1, quote:"(no specific instruction)", umbrella:true, note:"Ferns like staying lightly moist — small daily splash."},
  {id:"fittonia", name:"The Sad Pot", aka:"mint pot — officially beyond help", room:"bonsai", type:"none", quote:"What the hell is going on in here? — I don’t know. It doesn’t, it doesn’t like anything.", note:"Peter’s words — and yet: in the July 20 photos it has a tiny new green sprout. Whatever it’s doing, it’s working. Still nothing to do. (The tiny cup next to it has no instructions either.)"},
  {id:"desert-rose", name:"Desert Rose", aka:"fat trunk, blue-striped pot", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
  {id:"kitchen-juniper", name:"Juniper Tree", aka:"the crispy little christmas tree", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Browning at the edges — daily little drink is the prescription."},
@@ -193,7 +192,7 @@ const PLANTS = [
  {id:"zebra-pot-trailing", name:"Zebra-Pot Trailer", aka:"striped pot, trailing stems", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
  {id:"basil", name:"Basil", aka:"the edible one", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Herbs wilt fast — don’t skip its day."},
  {id:"twiggy-shrub", name:"Twiggy Shrub", aka:"bare little branches, dark pot", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
- {id:"vase-sprout", name:"Vase Sprout", aka:"sprouting in the glass vase", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"If it’s sitting in water, just keep the level topped up."},
+ {id:"vase-sprout", name:"The Ovoid Pot", aka:"one brave leaf, behind the bug zapper", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
  {id:"rosemary", name:"Rosemary", aka:"ceramic pot on the sill", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
  {id:"sage", name:"Sage", aka:"soft grey-green leaves", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true},
  {id:"kitchen-snake", name:"Snake Plant (yellow edge)", aka:"tall one behind the sink shelf", room:"kit", interval:1, quote:"A little bit every day — see for myself.", umbrella:true, note:"Snake plants barely drink — make its daily bit a tiny one."},
@@ -226,7 +225,7 @@ const GAL = {
  "avocado":["v0b-09-avocado-seedling"],
  "clear-snake":["n-clear-snake","v0b-07-snake-plant","v0c-06-snake-plant"],
  "staked-sprout":["n-staked-sprout","v0b-05-white-pot-seedling","v0a-04-seedling-pot","v0c-01-staked-cutting"],
- "sill-fern":["v0c-05-boston-fern"],
+
  "fittonia":["n-fittonia","v0c-07-fittonia","v0b-08-small-succulent"],
  "money-tree":["p692-01-money-tree","p694-02-large-leaf-ficus"],
  "woolly-cactus":["p692-02-woolly-cactus"],
@@ -277,16 +276,19 @@ let mirror = {}, outbox = [];
 try{ const c = JSON.parse(localStorage.getItem(KEY)); if(c){ mirror = c.mirror||{}; outbox = c.outbox||[]; } }catch(e){}
 function persist(){ localStorage.setItem(KEY, JSON.stringify({mirror, outbox})) }
 let log = {}, voided = {};
+const ID_ALIAS = {"olive-tree-white":"shrub-teal","sill-fern":null};
 function fold(){
   log = {}; voided = {};
   const seen = new Set();
   const all = [...Object.values(mirror), ...outbox];
   for(const ev of all){
     if(!ev || !ev.p || !ev.t || !ev.k) continue;
-    const sig = ev.p+"|"+ev.t+"|"+ev.k;
+    let pid = ev.p;
+    if(pid in ID_ALIAS){ pid = ID_ALIAS[pid]; if(pid===null) continue; }
+    const sig = pid+"|"+ev.t+"|"+ev.k;
     if(seen.has(sig)) continue; seen.add(sig);
     const m = ev.k==="w" ? log : voided;
-    (m[ev.p] = m[ev.p]||[]).push(ev.t);
+    (m[pid] = m[pid]||[]).push(ev.t);
   }
   for(const m of [log, voided]) for(const k in m) m[k].sort((a,b)=>a-b);
 }
